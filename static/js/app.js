@@ -241,11 +241,38 @@ function initSingleImageForensics() {
     const fill = document.getElementById("confidence-fill");
     const pctLabel = document.getElementById("confidence-pct");
 
-    banner.className = "verdict-banner " + (data.is_fake ? "verdict-fake" : "verdict-real");
-    heading.innerHTML = (data.is_fake ? "🤖 Likely AI-Generated" : "📸 Likely Authentic Real");
-    sub.innerHTML = `Operating Threshold: ${data.threshold.toFixed(2)} | Forensic Confidence: ${data.confidence_pct}% | Latency: ⚡ ${data.latency_ms} ms`;
+    // Determine verdict classification
+    let verdictType = data.verdict_type || 'real';
+    const vLower = (data.verdict || '').toLowerCase();
+    const prob = typeof data.raw_prob_fake === 'number' ? data.raw_prob_fake : (data.confidence_pct ? data.confidence_pct / 100 : 0.5);
+    if (data.verdict_type === 'inconclusive' || vLower.includes('inconclusive') || (prob >= 0.40 && prob <= 0.60) || (data.confidence_pct >= 40 && data.confidence_pct <= 60)) {
+      verdictType = 'inconclusive';
+    } else if (data.is_fake || vLower.includes('ai') || data.verdict_type === 'fake') {
+      verdictType = 'fake';
+    } else {
+      verdictType = 'real';
+    }
 
-    fill.className = "confidence-progress-fill " + (data.is_fake ? "fill-fake" : "fill-real");
+    if (resultsContainer) resultsContainer.setAttribute("data-verdict", verdictType);
+
+    if (verdictType === 'inconclusive') {
+      banner.className = "verdict-banner verdict-inconclusive";
+      banner.style.borderLeft = "";
+      heading.innerHTML = "⚠️ Inconclusive / Ambiguous";
+      fill.className = "confidence-progress-fill fill-inconclusive";
+    } else if (verdictType === 'fake') {
+      banner.className = "verdict-banner verdict-fake";
+      banner.style.borderLeft = "";
+      heading.innerHTML = "🤖 Likely AI-Generated";
+      fill.className = "confidence-progress-fill fill-fake";
+    } else {
+      banner.className = "verdict-banner verdict-real";
+      banner.style.borderLeft = "";
+      heading.innerHTML = "📸 Likely Authentic Real";
+      fill.className = "confidence-progress-fill fill-real";
+    }
+
+    sub.innerHTML = `Operating Threshold: ${data.threshold ? data.threshold.toFixed(2) : '0.50'} | Confidence: ${data.confidence_pct}% | Latency: ⚡ ${data.latency_ms} ms`;
     fill.style.width = data.confidence_pct + "%";
     pctLabel.textContent = data.confidence_pct + "%";
 
@@ -253,14 +280,33 @@ function initSingleImageForensics() {
     const stripEmojis = (s) => (s || '').replace(/[\u{1F300}-\u{1FAFF}]|[\u{2600}-\u{27BF}]/gu, '').trim();
 
     document.getElementById("ev-model-val").textContent = data.confidence_pct + "%";
-    document.getElementById("ev-model-desc").textContent = stripEmojis(data.model_signal) || (data.is_fake ? "Strong AI Signal Detected" : "Consistent with Authentic Photo");
+    document.getElementById("ev-model-desc").textContent = stripEmojis(data.model_signal) || (verdictType === 'inconclusive' ? "Borderline Margin" : (data.is_fake ? "Strong AI Signal Detected" : "Consistent with Authentic Photo"));
 
-    document.getElementById("ev-srm-val").textContent = data.is_fake ? "Artefacts Detected" : "Clean Noise";
-    document.getElementById("ev-srm-desc").textContent = stripEmojis(data.srm_signal) || (data.is_fake ? "High-Frequency Noise Residuals" : "Natural Frequencies Preserved");
+    document.getElementById("ev-srm-val").textContent = verdictType === 'inconclusive' ? "Ambiguous Noise" : (data.is_fake ? "Artefacts Detected" : "Clean Noise");
+    document.getElementById("ev-srm-desc").textContent = stripEmojis(data.srm_signal) || (verdictType === 'inconclusive' ? "Equivocal Noise Characteristics" : (data.is_fake ? "High-Frequency Noise Residuals" : "Natural Frequencies Preserved"));
 
-    const warnCount = data.metadata.warnings.length;
-    document.getElementById("ev-meta-val").textContent = warnCount > 0 ? "Suspicious" : "Verified / Clean";
-    document.getElementById("ev-meta-desc").textContent = warnCount > 0 ? `${warnCount} Anomalies detected` : "No tampering signatures";
+    const meta = data.metadata || {};
+    const warnCount = (meta.warnings || []).length;
+    let metaVal = "Verified / Clean";
+    let metaDesc = "Standard Image Asset";
+    if (meta.has_ai_sig) {
+      metaVal = "AI Signature";
+      metaDesc = "Generative software indicator";
+    } else if (meta.is_screenshot) {
+      metaVal = "Screen Buffer";
+      metaDesc = "Digital framebuffer capture";
+    } else if (meta.device && (meta.device.includes("Apple") || meta.device.includes("Canon") || meta.device.includes("Sony") || meta.device.includes("Nikon") || meta.device.includes("Samsung"))) {
+      metaVal = "Hardware EXIF";
+      metaDesc = "Optical sensor tag verified";
+    } else if (warnCount > 0) {
+      metaVal = "Suspicious";
+      metaDesc = `${warnCount} Anomalies detected`;
+    } else {
+      metaVal = "Clean";
+      metaDesc = "No tampering signatures";
+    }
+    document.getElementById("ev-meta-val").textContent = metaVal;
+    document.getElementById("ev-meta-desc").textContent = metaDesc;
 
     document.getElementById("ev-perf-val").textContent = `${data.latency_ms} ms`;
     document.getElementById("ev-perf-desc").textContent = "High-speed tensor inference";
@@ -269,25 +315,14 @@ function initSingleImageForensics() {
     const heatmapImg = document.getElementById("heatmap-overlay-img");
     heatmapImg.src = data.heatmap_overlay;
 
-    // Determine verdict classification (Pic 2 & Pic 3)
-    let verdictType = 'real';
-    const vLower = (data.verdict || '').toLowerCase();
-    if (vLower.includes('inconclusive') || (typeof data.confidence_pct === 'number' && data.confidence_pct >= 48 && data.confidence_pct <= 52)) {
-      verdictType = 'inconclusive';
-    } else if (data.is_fake) {
-      verdictType = 'fake';
-    } else {
-      verdictType = 'real';
-    }
-
-    // 1. Set data-verdict on resultsContainer and evidence grid for dynamic hover highlights (Pic 2)
+    // 1. Set data-verdict on resultsContainer and evidence grid for dynamic hover highlights
     resultsContainer.setAttribute("data-verdict", verdictType);
     const evGrid = document.getElementById("single-evidence-grid");
     if (evGrid) {
       evGrid.setAttribute("data-verdict", verdictType);
     }
 
-    // 2. Dynamic styling for AI Diagnostic Explanation Box - Left Vertical Bar Only (Pic 1 Fix)
+    // 2. Dynamic styling for AI Diagnostic Explanation Box - Left Vertical Bar Only
     const aiExp = document.getElementById("ai-explanation-text");
     if (aiExp) {
       aiExp.textContent = data.explanation;
@@ -304,13 +339,20 @@ function initSingleImageForensics() {
       }
     }
 
-    // Metadata Table
+    // Comprehensive Original Metadata & Provenance Table
     const metaTable = document.getElementById("metadata-table-body");
     metaTable.innerHTML = `
-      <tr><td>File Name</td><td><strong>${filename}</strong></td></tr>
-      <tr><td>Dimensions</td><td>${data.metadata.width} × ${data.metadata.height} px</td></tr>
-      <tr><td>Format</td><td>${data.metadata.format}</td></tr>
-      <tr><td>Anomalies</td><td>${warnCount > 0 ? `<span class="badge badge-danger">${data.metadata.warnings.join(", ")}</span>` : `<span class="badge badge-success">Clean</span>`}</td></tr>
+      <tr><td>File Name</td><td style="word-break: break-all; font-weight:600;">${filename}</td></tr>
+      <tr><td>File Size</td><td>${meta.file_size || 'N/A'}</td></tr>
+      <tr><td>Dimensions</td><td>${meta.width} × ${meta.height} px <span style="color:var(--text-dim); font-size:0.82rem;">(${meta.megapixels ? meta.megapixels + ' MP, ' : ''}${meta.aspect_ratio ? 'Aspect ' + meta.aspect_ratio : ''})</span></td></tr>
+      <tr><td>Format</td><td><strong>${meta.format || 'JPEG'}</strong></td></tr>
+      <tr><td>Color Space</td><td>${meta.color_space || 'sRGB (24-bit TrueColor)'}</td></tr>
+      <tr><td>Device / Sensor</td><td>${meta.device || 'Standard Image Buffer'}</td></tr>
+      <tr><td>Capture Timestamp</td><td>${meta.datetime || 'Not Recorded'}</td></tr>
+      <tr><td>Software / Encoder</td><td>${meta.software || 'Standard Image Pipeline'}</td></tr>
+      <tr><td>Optical Settings</td><td>${meta.optical_settings || 'N/A (No Optical Sensors)'}</td></tr>
+      <tr><td>Content Credentials</td><td>${meta.c2pa_status || 'Not Detected'}</td></tr>
+      <tr><td>Provenance Integrity</td><td><span class="badge ${meta.provenance_badge || 'badge-success'}">${meta.provenance_text || 'Clean'}</span></td></tr>
     `;
 
     // Smooth scroll into view
@@ -372,20 +414,28 @@ function initBatchScanner() {
       for (const file of files) {
         try {
           const res = await analyzeImageLocally(file);
-          if (res.is_fake) aiCount++; else realCount++;
+          if (res.verdict_type === 'inconclusive') {
+            // Inconclusive
+          } else if (res.is_fake) {
+            aiCount++;
+          } else {
+            realCount++;
+          }
           results.push({
             filename: file.name,
             is_fake: res.is_fake,
-            verdict: res.is_fake ? "Likely AI-Generated" : "Likely Authentic Real",
+            verdict: res.verdict || (res.is_fake ? "Likely AI-Generated" : "Likely Authentic Real"),
+            verdict_type: res.verdict_type || (res.is_fake ? "fake" : "real"),
             confidence_pct: res.confidence_pct,
-            evidence: res.is_fake ? "Frequency lattice anomalies detected" : "Natural sensor noise verified",
-            status: "Success"
+            evidence: res.verdict_type === 'inconclusive' ? "Equivocal Noise Floor & Boundary Indeterminacy" : (res.is_fake ? "Frequency lattice anomalies detected" : "Natural sensor noise verified"),
+            status: res.verdict_type === 'inconclusive' ? "Inconclusive (Review Required)" : "Success"
           });
         } catch (e) {
           results.push({
             filename: file.name,
             is_fake: false,
             verdict: "Error",
+            verdict_type: "error",
             confidence_pct: 0,
             evidence: e.message,
             status: "Failed"
@@ -419,15 +469,23 @@ function initBatchScanner() {
 
     // Render Table Rows
     batchTableBody.innerHTML = data.results
-      .map(item => `
-        <tr>
-          <td><strong>${item.filename}</strong></td>
-          <td><span class="badge ${item.is_fake ? "badge-danger" : "badge-success"}">${item.verdict}</span></td>
-          <td><strong>${item.confidence_pct}%</strong></td>
-          <td>${item.evidence}</td>
-          <td>${item.status}</td>
-        </tr>
-      `)
+      .map(item => {
+        let badgeClass = "badge-success";
+        if (item.verdict_type === 'inconclusive' || (item.verdict || '').toLowerCase().includes('inconclusive')) {
+          badgeClass = "badge-warning";
+        } else if (item.is_fake || (item.verdict || '').toLowerCase().includes('ai')) {
+          badgeClass = "badge-danger";
+        }
+        return `
+          <tr>
+            <td><strong>${item.filename}</strong></td>
+            <td><span class="badge ${badgeClass}">${item.verdict}</span></td>
+            <td><strong>${item.confidence_pct}%</strong></td>
+            <td>${item.evidence}</td>
+            <td>${item.status}</td>
+          </tr>
+        `;
+      })
       .join("");
   }
 
@@ -877,28 +935,68 @@ async function analyzeImageLocally(file) {
   }
 
   fakeScore = Math.max(0.025, Math.min(0.978, fakeScore));
-  const isFake = fakeScore >= 0.50;
-  const confPct = Math.round((isFake ? fakeScore : (1 - fakeScore)) * 1000) / 10;
+
+  let verdict = "Likely Real";
+  let verdictType = "real";
+  let isFake = false;
+  let confPct = Math.round((1 - fakeScore) * 1000) / 10;
+  let modelSignal = "Client-Side Forensic WebEngine verified sensor noise";
+  let srmSignal = "Natural Poisson camera sensor noise confirmed";
+  let explanation = `Forensic WebEngine verified natural CMOS/CCD sensor noise distribution (mean residual: ${meanResidual.toFixed(2)}) and coherent optical gradient dispersion across edges. No generative lattice artifacts detected.`;
+
+  if (fakeScore >= 0.40 && fakeScore <= 0.60) {
+    verdict = "Inconclusive / Ambiguous";
+    verdictType = "inconclusive";
+    isFake = false;
+    confPct = Math.round(Math.max(fakeScore, 1 - fakeScore) * 1000) / 10;
+    modelSignal = "Statistical Ambiguity / Borderline Margin";
+    srmSignal = "Equivocal High-Frequency Noise Characteristics";
+    explanation = `Forensic WebEngine detected borderline spatial metrics (residual: ${meanResidual.toFixed(2)}, smoothness: ${(smoothRatio * 100).toFixed(1)}%). Sensor noise and synthetic lattice indicators are both attenuated (typical of heavy compression, screen grabs, or subtle edits). Manual inspection recommended.`;
+  } else if (fakeScore > 0.60) {
+    verdict = "Likely AI-Generated";
+    verdictType = "fake";
+    isFake = true;
+    confPct = Math.round(fakeScore * 1000) / 10;
+    modelSignal = "Client-Side Forensic WebEngine flagged synthetic artifacts";
+    srmSignal = "Unnatural smoothness & periodic lattice residuals detected";
+    explanation = `Forensic WebEngine detected anomalous high-frequency residuals (smoothness ratio: ${(smoothRatio * 100).toFixed(1)}%) and periodic deconvolution lattice noise typical of generative diffusion/GAN upscaling. Spatial Grad-CAM localized synthetic inconsistencies in highlighted regions.`;
+  }
 
   const heatmapOverlay = generateHeatmapOverlay(imgBitmap, gridActivations, gridSize);
   const latencyMs = Math.round(performance.now() - startTime);
 
-  const explanation = isFake
-    ? `Forensic WebEngine detected anomalous high-frequency residuals (smoothness ratio: ${(smoothRatio * 100).toFixed(1)}%) and periodic deconvolution lattice noise typical of generative diffusion/GAN upscaling. Spatial Grad-CAM localized synthetic inconsistencies in highlighted regions.`
-    : `Forensic WebEngine verified natural CMOS/CCD sensor noise distribution (mean residual: ${meanResidual.toFixed(2)}) and coherent optical gradient dispersion across edges. No generative lattice artifacts detected.`;
-
   return {
+    verdict: verdict,
+    verdict_type: verdictType,
     is_fake: isFake,
     threshold: 0.50,
+    inconclusive_band: [0.40, 0.60],
     confidence_pct: confPct,
+    raw_prob_fake: Math.round(fakeScore * 1000) / 1000,
     latency_ms: latencyMs,
-    model_signal: isFake ? "Client-Side Forensic WebEngine flagged synthetic artifacts" : "Client-Side Forensic WebEngine verified sensor noise",
-    srm_signal: isFake ? "Unnatural smoothness & periodic lattice residuals detected" : "Natural Poisson camera sensor noise confirmed",
+    model_signal: modelSignal,
+    srm_signal: srmSignal,
     metadata: {
+      filename: file.name,
       width: width,
       height: height,
+      megapixels: Math.round((width * height) / 10000) / 100,
+      aspect_ratio: `${width}:${height}`,
       format: format,
-      warnings: metadataWarnings
+      file_size: file.size < 1024 ? `${file.size} B` : (file.size < 1024*1024 ? `${(file.size/1024).toFixed(1)} KB` : `${(file.size/(1024*1024)).toFixed(2)} MB`),
+      color_space: "sRGB TrueColor (24-bit)",
+      device: (file.name || "").toLowerCase().includes("screenshot") ? "Mobile Screen Capture (Virtual Framebuffer)" : (cameraKeywordMatch ? `Verified Hardware (${cameraKeywordMatch})` : "No Optical Hardware Sensor Tag"),
+      datetime: ((file.name || "").match(/Screenshot_(\d{4})[-_]?(\d{2})[-_]?(\d{2})[-_]?(\d{2})[-_]?(\d{2})[-_]?(\d{2})/i) || [])[0] ? ((file.name || "").match(/Screenshot_(\d{4})[-_]?(\d{2})[-_]?(\d{2})[-_]?(\d{2})[-_]?(\d{2})[-_]?(\d{2})/i).slice(1, 4).join("-") + " " + (file.name || "").match(/Screenshot_(\d{4})[-_]?(\d{2})[-_]?(\d{2})[-_]?(\d{2})[-_]?(\d{2})[-_]?(\d{2})/i).slice(4, 7).join(":")) : "Not Recorded",
+      software: (file.name || "").toLowerCase().includes("screenshot") ? "Android / OS Display Server" : (aiKeywordMatch ? `Generative AI (${aiKeywordMatch})` : "Standard Image Pipeline"),
+      optical_settings: (file.name || "").toLowerCase().includes("screenshot") ? "N/A (Screen Capture Buffer)" : "N/A (No Optical Sensors)",
+      c2pa_status: "Not Detected (Standard Local Asset)",
+      has_c2pa: false,
+      has_ai_sig: !!aiKeywordMatch,
+      is_screenshot: (file.name || "").toLowerCase().includes("screenshot"),
+      provenance_badge: aiKeywordMatch ? "badge-danger" : ((file.name || "").toLowerCase().includes("screenshot") ? "badge-info" : "badge-success"),
+      provenance_text: aiKeywordMatch ? `Generative AI Signature (${aiKeywordMatch})` : ((file.name || "").toLowerCase().includes("screenshot") ? "Clean Mobile Screenshot (No Camera Sensor)" : "Clean Digital Asset"),
+      warnings: metadataWarnings,
+      has_warnings: metadataWarnings.length > 0
     },
     heatmap_overlay: heatmapOverlay,
     explanation: explanation

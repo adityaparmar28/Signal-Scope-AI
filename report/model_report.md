@@ -2,7 +2,7 @@
 
 ## Task
 **Binary classification**: Real vs. AI-Generated images.
-**Bonus tasks attempted**: Faithful Explanation (Module A), Robustness Analysis (Module C), Deployable Interface (Module F).
+**Bonus tasks attempted**: Faithful Explanation (Module A), Robustness Analysis (Module C), Provenance & Metadata (Module D), Deployable Interface (Module F).
 
 ## Data & Split
 | Set | Source | Size | Purpose |

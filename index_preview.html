@@ -653,20 +653,14 @@ main {
 
 .verdict-fake {
   background: var(--danger-bg);
-  border: 1px solid var(--danger-border) !important;
+  border: 1px solid var(--danger-border);
   box-shadow: 0 2px 8px rgba(220, 38, 38, 0.08);
 }
 
 .verdict-real {
   background: var(--success-bg);
-  border: 1px solid var(--success-border) !important;
+  border: 1px solid var(--success-border);
   box-shadow: 0 2px 8px rgba(22, 163, 74, 0.08);
-}
-
-.verdict-inconclusive {
-  background: var(--warning-bg);
-  border: 1px solid var(--warning-border) !important;
-  box-shadow: 0 2px 8px rgba(217, 119, 6, 0.08);
 }
 
 .verdict-heading {
@@ -680,7 +674,6 @@ main {
 
 .verdict-fake .verdict-heading { color: var(--danger-text); }
 .verdict-real .verdict-heading { color: var(--success-text); }
-.verdict-inconclusive .verdict-heading { color: var(--warning-text); }
 
 .verdict-sub {
   font-size: 0.95rem;
@@ -724,10 +717,6 @@ main {
 
 .fill-real {
   background: linear-gradient(90deg, #34d399, #16a34a);
-}
-
-.fill-inconclusive {
-  background: linear-gradient(90deg, #fbbf24, #d97706);
 }
 
 /* Evidence Grid */
@@ -1688,19 +1677,11 @@ body[data-theme="dark"].theme-aurora .upload-dropzone {
 /* ==========================================================================
    STYLE 5: 💎 Stealth Obsidian Pro (Pure Minimalist)
    ========================================================================== */
-
-/* Style 5: 💎 Stealth Obsidian Pro as Native Dark Theme */
-body[data-theme="dark"],
 body[data-theme="dark"].theme-obsidian {
   background-color: #030305 !important;
   background-image: radial-gradient(circle at 50% 0%, rgba(255, 255, 255, 0.04), transparent 60%) !important;
   background-attachment: fixed !important;
 }
-body[data-theme="dark"] .card,
-body[data-theme="dark"] header,
-body[data-theme="dark"] .evidence-card,
-body[data-theme="dark"] .pref-menu,
-body[data-theme="dark"] .side-menu,
 body[data-theme="dark"].theme-obsidian .card,
 body[data-theme="dark"].theme-obsidian header,
 body[data-theme="dark"].theme-obsidian .evidence-card,
@@ -1711,8 +1692,6 @@ body[data-theme="dark"].theme-obsidian .side-menu {
   border: 1px solid #1f1f23 !important;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.8) !important;
 }
-body[data-theme="dark"] .card:hover,
-body[data-theme="dark"] .evidence-card:hover,
 body[data-theme="dark"].theme-obsidian .card:hover,
 body[data-theme="dark"].theme-obsidian .evidence-card:hover {
   border-color: #3f3f46 !important;
@@ -1739,11 +1718,6 @@ body[data-theme="dark"].theme-obsidian .upload-dropzone.dragover .upload-title {
 body[data-theme="dark"].theme-obsidian .upload-dropzone:hover .upload-icon,
 body[data-theme="dark"].theme-obsidian .upload-dropzone.dragover .upload-icon {
   transform: scale(1.08);
-}
-
-input[type="range"].slider-input {
-  accent-color: #38bdf8;
-  cursor: pointer;
 }
 
 /* Preferences Menu Capsule Pill Styling (Matching System Status) */
@@ -1850,11 +1824,40 @@ body[data-theme="dark"].theme-hex .upload-dropzone {
   box-shadow: 0 0 12px rgba(37, 99, 235, 0.5) !important;
 }
 
+/* Theme Switcher Button Hover & Active States in Banner */
+.theme-mode-btn {
+  padding: 0.32rem 0.65rem;
+  font-size: 0.76rem;
+  font-weight: 700;
+  border-radius: 6px;
+  cursor: pointer;
+  background: transparent;
+  color: #94a3b8;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  white-space: nowrap;
+}
+.theme-mode-btn:hover {
+  background: rgba(255, 255, 255, 0.08);
+  color: #ffffff;
+  border-color: rgba(255, 255, 255, 0.25);
+  transform: translateY(-1px);
+}
+.theme-mode-btn.active {
+  background: #38bdf8 !important;
+  color: #030712 !important;
+  border-color: #7dd3fc !important;
+  font-weight: 800 !important;
+  box-shadow: 0 0 12px rgba(56, 189, 248, 0.5) !important;
+}
+
 /* ==========================================================================
    LIGHT MODE: CLINICAL EXECUTIVE DESIGN SYSTEM (Matches Dark Obsidian Quality)
    ========================================================================== */
-body[data-theme="light"],
-body[data-theme="light"].theme-obsidian {
+body[data-theme="light"] {
   background-color: #f8fafc !important;
   background-image: radial-gradient(circle at 50% 0%, rgba(37, 99, 235, 0.03), transparent 60%) !important;
   background-attachment: fixed !important;
@@ -1865,12 +1868,7 @@ body[data-theme="light"] .card,
 body[data-theme="light"] header,
 body[data-theme="light"] .evidence-card,
 body[data-theme="light"] .pref-menu,
-body[data-theme="light"] .side-menu,
-body[data-theme="light"].theme-obsidian .card,
-body[data-theme="light"].theme-obsidian header,
-body[data-theme="light"].theme-obsidian .evidence-card,
-body[data-theme="light"].theme-obsidian .pref-menu,
-body[data-theme="light"].theme-obsidian .side-menu {
+body[data-theme="light"] .side-menu {
   background: #ffffff !important;
   backdrop-filter: none !important;
   border: 1px solid #e2e8f0 !important;
@@ -1879,47 +1877,38 @@ body[data-theme="light"].theme-obsidian .side-menu {
 }
 
 body[data-theme="light"] .card:hover,
-body[data-theme="light"] .evidence-card:hover,
-body[data-theme="light"].theme-obsidian .card:hover,
-body[data-theme="light"].theme-obsidian .evidence-card:hover {
+body[data-theme="light"] .evidence-card:hover {
   border-color: #cbd5e1 !important;
 }
 
 /* Light Mode Upload Dropzone (Normal: Matte soft slate, ZERO blue wash) */
-body[data-theme="light"] .upload-dropzone,
-body[data-theme="light"].theme-obsidian .upload-dropzone {
+body[data-theme="light"] .upload-dropzone {
   background: #f1f5f9 !important;
   border: 1.5px dashed #cbd5e1 !important;
   transition: all 0.25s ease !important;
 }
 
-body[data-theme="light"] .upload-dropzone .upload-title,
-body[data-theme="light"].theme-obsidian .upload-dropzone .upload-title {
+body[data-theme="light"] .upload-dropzone .upload-title {
   color: #0f172a !important;
   font-weight: 700 !important;
 }
 
-body[data-theme="light"] .upload-dropzone .upload-sub,
-body[data-theme="light"].theme-obsidian .upload-dropzone .upload-sub {
+body[data-theme="light"] .upload-dropzone .upload-sub {
   color: #64748b !important;
 }
 
-body[data-theme="light"] .upload-dropzone .upload-hint,
-body[data-theme="light"].theme-obsidian .upload-dropzone .upload-hint {
+body[data-theme="light"] .upload-dropzone .upload-hint {
   color: #94a3b8 !important;
 }
 
-body[data-theme="light"] .upload-dropzone .upload-icon,
-body[data-theme="light"].theme-obsidian .upload-dropzone .upload-icon {
+body[data-theme="light"] .upload-dropzone .upload-icon {
   color: #64748b;
   transition: transform 0.25s ease, color 0.25s ease;
 }
 
 /* Light Mode Upload Dropzone (Hover & Dragover: Matte kept, subtle halo, blue title & icon scale) */
 body[data-theme="light"] .upload-dropzone:hover,
-body[data-theme="light"] .upload-dropzone.dragover,
-body[data-theme="light"].theme-obsidian .upload-dropzone:hover,
-body[data-theme="light"].theme-obsidian .upload-dropzone.dragover {
+body[data-theme="light"] .upload-dropzone.dragover {
   background: #f1f5f9 !important;
   border: 1.5px dashed #cbd5e1 !important;
   box-shadow: 0 0 25px rgba(37, 99, 235, 0.14), inset 0 0 15px rgba(37, 99, 235, 0.03) !important;
@@ -1927,23 +1916,18 @@ body[data-theme="light"].theme-obsidian .upload-dropzone.dragover {
 }
 
 body[data-theme="light"] .upload-dropzone:hover .upload-title,
-body[data-theme="light"] .upload-dropzone.dragover .upload-title,
-body[data-theme="light"].theme-obsidian .upload-dropzone:hover .upload-title,
-body[data-theme="light"].theme-obsidian .upload-dropzone.dragover .upload-title {
+body[data-theme="light"] .upload-dropzone.dragover .upload-title {
   color: #2563eb !important;
 }
 
 body[data-theme="light"] .upload-dropzone:hover .upload-icon,
-body[data-theme="light"] .upload-dropzone.dragover .upload-icon,
-body[data-theme="light"].theme-obsidian .upload-dropzone:hover .upload-icon,
-body[data-theme="light"].theme-obsidian .upload-dropzone.dragover .upload-icon {
+body[data-theme="light"] .upload-dropzone.dragover .upload-icon {
   transform: scale(1.08);
   color: #2563eb !important;
 }
 
 /* Light Mode Preferences Menu Capsule Pill (Matching System Status) */
-body[data-theme="light"] #pref-menu .custom-dropdown-trigger,
-body[data-theme="light"].theme-obsidian #pref-menu .custom-dropdown-trigger {
+body[data-theme="light"] #pref-menu .custom-dropdown-trigger {
   background: #ffffff !important;
   border: 1px solid #e2e8f0 !important;
   color: #0f172a !important;
@@ -1953,14 +1937,12 @@ body[data-theme="light"].theme-obsidian #pref-menu .custom-dropdown-trigger {
 }
 
 body[data-theme="light"] #pref-menu .custom-dropdown-wrapper:focus .custom-dropdown-trigger,
-body[data-theme="light"] #pref-menu .custom-dropdown-trigger:hover,
-body[data-theme="light"].theme-obsidian #pref-menu .custom-dropdown-trigger:hover {
+body[data-theme="light"] #pref-menu .custom-dropdown-trigger:hover {
   border-color: #2563eb !important;
   box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.12) !important;
 }
 
-body[data-theme="light"] #pref-menu .custom-dropdown-menu,
-body[data-theme="light"].theme-obsidian #pref-menu .custom-dropdown-menu {
+body[data-theme="light"] #pref-menu .custom-dropdown-menu {
   background: #ffffff !important;
   border: 1px solid #e2e8f0 !important;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08) !important;
@@ -1968,8 +1950,7 @@ body[data-theme="light"].theme-obsidian #pref-menu .custom-dropdown-menu {
   padding: 0.4rem !important;
 }
 
-body[data-theme="light"] #pref-menu .custom-dropdown-item,
-body[data-theme="light"].theme-obsidian #pref-menu .custom-dropdown-item {
+body[data-theme="light"] #pref-menu .custom-dropdown-item {
   border-radius: 9999px !important;
   padding: 0.45rem 0.85rem !important;
   margin: 0.15rem 0 !important;
@@ -1977,15 +1958,12 @@ body[data-theme="light"].theme-obsidian #pref-menu .custom-dropdown-item {
 }
 
 body[data-theme="light"] #pref-menu .custom-dropdown-item:hover,
-body[data-theme="light"] #pref-menu .custom-dropdown-item.active,
-body[data-theme="light"].theme-obsidian #pref-menu .custom-dropdown-item:hover,
-body[data-theme="light"].theme-obsidian #pref-menu .custom-dropdown-item.active {
+body[data-theme="light"] #pref-menu .custom-dropdown-item.active {
   background: rgba(37, 99, 235, 0.08) !important;
   color: #2563eb !important;
 }
 
-body[data-theme="light"] #header-status-badge,
-body[data-theme="light"].theme-obsidian #header-status-badge {
+body[data-theme="light"] #header-status-badge {
   background: #ffffff !important;
   border: 1px solid #e2e8f0 !important;
   color: #0f172a !important;
@@ -1993,102 +1971,181 @@ body[data-theme="light"].theme-obsidian #header-status-badge {
 }
 
 /* Light Mode Verdict Banners (Uniform 1px border, ZERO left line) */
-body[data-theme="light"] .verdict-banner,
-body[data-theme="light"].theme-obsidian .verdict-banner {
+body[data-theme="light"] .verdict-banner {
   border-left: none !important;
   border: 1px solid #e2e8f0 !important;
   border-radius: 12px !important;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04) !important;
 }
 
-body[data-theme="light"] .verdict-banner.verdict-real,
-body[data-theme="light"].theme-obsidian .verdict-banner.verdict-real {
+body[data-theme="light"] .verdict-banner.verdict-real {
   background: #f0fdf4 !important;
   border: 1px solid #86efac !important;
   color: #15803d !important;
 }
 
-body[data-theme="light"] .verdict-banner.verdict-fake,
-body[data-theme="light"].theme-obsidian .verdict-banner.verdict-fake {
+body[data-theme="light"] .verdict-banner.verdict-fake {
   background: #fef2f2 !important;
   border: 1px solid #fca5a5 !important;
   color: #b91c1c !important;
 }
 
-body[data-theme="light"] .verdict-banner.verdict-inconclusive,
-body[data-theme="light"].theme-obsidian .verdict-banner.verdict-inconclusive {
+body[data-theme="light"] .verdict-banner.verdict-inconclusive {
   background: #fffbeb !important;
   border: 1px solid #fde68a !important;
   color: #a16207 !important;
 }
 
 /* Light Mode Brand & Nav Elements */
-body[data-theme="light"] .nav-tabs,
-body[data-theme="light"].theme-obsidian .nav-tabs {
+body[data-theme="light"] .nav-tabs {
   border-bottom: 1px solid #e2e8f0 !important;
 }
 
-body[data-theme="light"] .tab-btn,
-body[data-theme="light"].theme-obsidian .tab-btn {
+body[data-theme="light"] .tab-btn {
   color: #64748b !important;
 }
 
-body[data-theme="light"] .tab-btn:hover,
-body[data-theme="light"].theme-obsidian .tab-btn:hover {
+body[data-theme="light"] .tab-btn:hover {
   color: #0f172a !important;
   background: #f1f5f9 !important;
 }
 
-body[data-theme="light"] .tab-btn.active,
-body[data-theme="light"].theme-obsidian .tab-btn.active {
+body[data-theme="light"] .tab-btn.active {
   color: #2563eb !important;
   border-bottom: 2px solid #2563eb !important;
 }
 
-body[data-theme="light"] .menu-toggle,
-body[data-theme="light"].theme-obsidian .menu-toggle {
+body[data-theme="light"] .menu-toggle {
   background: #ffffff !important;
   border: 1px solid #e2e8f0 !important;
   color: #0f172a !important;
 }
 
-body[data-theme="light"] .menu-toggle:hover,
-body[data-theme="light"].theme-obsidian .menu-toggle:hover {
+body[data-theme="light"] .menu-toggle:hover {
   border-color: #2563eb !important;
   color: #2563eb !important;
   box-shadow: 0 4px 12px rgba(37, 99, 235, 0.12) !important;
 }
 
-body[data-theme="light"] .metadata-table th,
-body[data-theme="light"].theme-obsidian .metadata-table th {
+body[data-theme="light"] .metadata-table th {
   background: #f1f5f9 !important;
   color: #334155 !important;
   border-bottom: 1px solid #e2e8f0 !important;
 }
 
-body[data-theme="light"] .metadata-table td,
-body[data-theme="light"].theme-obsidian .metadata-table td {
+body[data-theme="light"] .metadata-table td {
   border-bottom: 1px solid #f1f5f9 !important;
   color: #334155 !important;
 }
 
-body[data-theme="light"] .metadata-table tr:hover td,
-body[data-theme="light"].theme-obsidian .metadata-table tr:hover td {
+body[data-theme="light"] .metadata-table tr:hover td {
   background: #f8fafc !important;
 }
 
-body[data-theme="light"] .stat-card,
-body[data-theme="light"].theme-obsidian .stat-card {
+body[data-theme="light"] .stat-card {
   background: #ffffff !important;
   border: 1px solid #e2e8f0 !important;
+}
+
+/* Light Mode 6 Live Style Variations */
+body[data-theme="light"].theme-grid {
+  background-color: #f8fafc !important;
+  background-image: 
+    radial-gradient(ellipse 80% 50% at 50% -20%, rgba(37, 99, 235, 0.07), transparent 70%),
+    linear-gradient(rgba(0, 0, 0, 0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0, 0, 0, 0.03) 1px, transparent 1px) !important;
+  background-size: 100% 100%, 36px 36px, 36px 36px !important;
+  background-position: top center, -1px -1px, -1px -1px !important;
+  background-attachment: fixed !important;
+}
+
+body[data-theme="light"].theme-dots {
+  background-color: #f8fafc !important;
+  background-image: 
+    radial-gradient(circle at 50% 0%, rgba(37, 99, 235, 0.06), transparent 50%),
+    radial-gradient(circle, rgba(0, 0, 0, 0.07) 1.2px, transparent 1.2px) !important;
+  background-size: 100% 100%, 24px 24px !important;
+  background-position: top center, 0 0 !important;
+  background-attachment: fixed !important;
+}
+
+body[data-theme="light"].theme-waves {
+  background-color: #f8fafc !important;
+  background-image: 
+    radial-gradient(ellipse 90% 40% at 50% -10%, rgba(37, 99, 235, 0.08), transparent 75%),
+    repeating-linear-gradient(0deg, transparent, transparent 20px, rgba(37, 99, 235, 0.02) 20px, rgba(37, 99, 235, 0.02) 22px) !important;
+  background-attachment: fixed !important;
+}
+
+body[data-theme="light"].theme-aurora {
+  background-color: #f8fafc !important;
+  background-image: 
+    radial-gradient(circle 800px at 15% -10%, rgba(99, 102, 241, 0.08), transparent 70%),
+    radial-gradient(circle 700px at 85% -15%, rgba(168, 85, 247, 0.07), transparent 70%),
+    radial-gradient(circle 600px at 50% 50%, rgba(6, 182, 212, 0.05), transparent 70%) !important;
+  background-attachment: fixed !important;
+}
+
+body[data-theme="light"].theme-obsidian {
+  background-color: #f8fafc !important;
+  background-image: radial-gradient(circle at 50% 0%, rgba(37, 99, 235, 0.03), transparent 60%) !important;
+  background-attachment: fixed !important;
+}
+
+body[data-theme="light"].theme-obsidian .card,
+body[data-theme="light"].theme-obsidian header,
+body[data-theme="light"].theme-obsidian .evidence-card,
+body[data-theme="light"].theme-obsidian .pref-menu,
+body[data-theme="light"].theme-obsidian .side-menu {
+  background: #ffffff !important;
+  border: 1px solid #e2e8f0 !important;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04) !important;
+}
+
+body[data-theme="light"].theme-obsidian .card:hover,
+body[data-theme="light"].theme-obsidian .evidence-card:hover {
+  border-color: #cbd5e1 !important;
+}
+
+body[data-theme="light"].theme-obsidian .upload-dropzone {
+  background: #f1f5f9 !important;
+  border: 1.5px dashed #cbd5e1 !important;
+  transition: all 0.25s ease !important;
+}
+
+body[data-theme="light"].theme-obsidian .upload-dropzone:hover,
+body[data-theme="light"].theme-obsidian .upload-dropzone.dragover {
+  background: #f1f5f9 !important;
+  border: 1.5px dashed #cbd5e1 !important;
+  box-shadow: 0 0 25px rgba(37, 99, 235, 0.12), inset 0 0 15px rgba(37, 99, 235, 0.03) !important;
+  transform: translateY(-2px);
+}
+
+body[data-theme="light"].theme-obsidian .upload-dropzone:hover .upload-title,
+body[data-theme="light"].theme-obsidian .upload-dropzone.dragover .upload-title {
+  color: #2563eb !important;
+}
+
+body[data-theme="light"].theme-obsidian .upload-dropzone:hover .upload-icon,
+body[data-theme="light"].theme-obsidian .upload-dropzone.dragover .upload-icon {
+  transform: scale(1.08);
+}
+
+body[data-theme="light"].theme-hex {
+  background-color: #f8fafc !important;
+  background-image: 
+    radial-gradient(ellipse 90% 50% at 50% -10%, rgba(16, 185, 129, 0.07), transparent 75%),
+    url("data:image/svg+xml,%3Csvg width='48' height='83.138' viewBox='0 0 48 83.138' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M48 41.569 L36 41.569 L24 20.785 L0 20.785 L0 0 L24 0 L36 20.785 L48 20.785 Z M48 41.569 L36 41.569 L24 62.354 L0 62.354 L0 83.138 L24 83.138 L36 62.354 L48 62.354 Z' fill='none' stroke='rgba(16, 185, 129, 0.06)' stroke-width='1.2'/%3E%3C/svg%3E") !important;
+  background-size: 100% 100%, 48px 83.138px !important;
+  background-position: top center, 0 0 !important;
+  background-attachment: fixed !important;
 }
 
 /* ==========================================================================
    SYSTEM DEFAULT MODE (Matches OS preferences: Dark or Light)
    ========================================================================== */
 @media (prefers-color-scheme: dark) {
-  body[data-theme="system"],
-  body[data-theme="system"].theme-obsidian {
+  body[data-theme="system"] {
     background-color: #030305 !important;
     background-image: radial-gradient(circle at 50% 0%, rgba(255, 255, 255, 0.04), transparent 60%) !important;
     color: #f0f6fc !important;
@@ -2097,12 +2154,7 @@ body[data-theme="light"].theme-obsidian .stat-card {
   body[data-theme="system"] header,
   body[data-theme="system"] .evidence-card,
   body[data-theme="system"] .pref-menu,
-  body[data-theme="system"] .side-menu,
-  body[data-theme="system"].theme-obsidian .card,
-  body[data-theme="system"].theme-obsidian header,
-  body[data-theme="system"].theme-obsidian .evidence-card,
-  body[data-theme="system"].theme-obsidian .pref-menu,
-  body[data-theme="system"].theme-obsidian .side-menu {
+  body[data-theme="system"] .side-menu {
     background: #09090b !important;
     backdrop-filter: none !important;
     border: 1px solid #1f1f23 !important;
@@ -2110,81 +2162,64 @@ body[data-theme="light"].theme-obsidian .stat-card {
     color: #f0f6fc !important;
   }
   body[data-theme="system"] .card:hover,
-  body[data-theme="system"] .evidence-card:hover,
-  body[data-theme="system"].theme-obsidian .card:hover,
-  body[data-theme="system"].theme-obsidian .evidence-card:hover {
+  body[data-theme="system"] .evidence-card:hover {
     border-color: #3f3f46 !important;
   }
-  body[data-theme="system"] .upload-dropzone,
-  body[data-theme="system"].theme-obsidian .upload-dropzone {
+  body[data-theme="system"] .upload-dropzone {
     background: #060608 !important;
     border: 1.5px dashed #27272a !important;
   }
   body[data-theme="system"] .upload-dropzone:hover,
-  body[data-theme="system"] .upload-dropzone.dragover,
-  body[data-theme="system"].theme-obsidian .upload-dropzone:hover,
-  body[data-theme="system"].theme-obsidian .upload-dropzone.dragover {
+  body[data-theme="system"] .upload-dropzone.dragover {
     background: #060608 !important;
     border: 1.5px dashed #27272a !important;
     box-shadow: 0 0 25px rgba(56, 189, 248, 0.15), inset 0 0 15px rgba(56, 189, 248, 0.04) !important;
     transform: translateY(-2px);
   }
   body[data-theme="system"] .upload-dropzone:hover .upload-title,
-  body[data-theme="system"] .upload-dropzone.dragover .upload-title,
-  body[data-theme="system"].theme-obsidian .upload-dropzone:hover .upload-title,
-  body[data-theme="system"].theme-obsidian .upload-dropzone.dragover .upload-title {
+  body[data-theme="system"] .upload-dropzone.dragover .upload-title {
     color: #38bdf8 !important;
   }
   body[data-theme="system"] .upload-dropzone:hover .upload-icon,
-  body[data-theme="system"] .upload-dropzone.dragover .upload-icon,
-  body[data-theme="system"].theme-obsidian .upload-dropzone:hover .upload-icon,
-  body[data-theme="system"].theme-obsidian .upload-dropzone.dragover .upload-icon {
+  body[data-theme="system"] .upload-dropzone.dragover .upload-icon {
     transform: scale(1.08);
   }
-  body[data-theme="system"] #pref-menu .custom-dropdown-trigger,
-  body[data-theme="system"].theme-obsidian #pref-menu .custom-dropdown-trigger {
+  body[data-theme="system"] #pref-menu .custom-dropdown-trigger {
     border-radius: 9999px !important;
     padding: 0.6rem 1rem !important;
     background: var(--bg-surface) !important;
     border: 1px solid var(--border-color) !important;
   }
   body[data-theme="system"] #pref-menu .custom-dropdown-wrapper:focus .custom-dropdown-trigger,
-  body[data-theme="system"] #pref-menu .custom-dropdown-trigger:hover,
-  body[data-theme="system"].theme-obsidian #pref-menu .custom-dropdown-trigger:hover {
+  body[data-theme="system"] #pref-menu .custom-dropdown-trigger:hover {
     border-color: var(--primary) !important;
     box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.18) !important;
   }
-  body[data-theme="system"] #pref-menu .custom-dropdown-menu,
-  body[data-theme="system"].theme-obsidian #pref-menu .custom-dropdown-menu {
+  body[data-theme="system"] #pref-menu .custom-dropdown-menu {
     border-radius: 16px !important;
     padding: 0.4rem !important;
     background: var(--bg-card) !important;
     border: 1px solid var(--border-color) !important;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6) !important;
   }
-  body[data-theme="system"] #pref-menu .custom-dropdown-item,
-  body[data-theme="system"].theme-obsidian #pref-menu .custom-dropdown-item {
+  body[data-theme="system"] #pref-menu .custom-dropdown-item {
     border-radius: 9999px !important;
     padding: 0.45rem 0.85rem !important;
     margin: 0.15rem 0 !important;
   }
   body[data-theme="system"] #pref-menu .custom-dropdown-item:hover,
-  body[data-theme="system"] #pref-menu .custom-dropdown-item.active,
-  body[data-theme="system"].theme-obsidian #pref-menu .custom-dropdown-item:hover,
-  body[data-theme="system"].theme-obsidian #pref-menu .custom-dropdown-item.active {
+  body[data-theme="system"] #pref-menu .custom-dropdown-item.active {
     background: rgba(56, 189, 248, 0.12) !important;
     color: #38bdf8 !important;
   }
-  body[data-theme="system"] .verdict-banner,
-  body[data-theme="system"].theme-obsidian .verdict-banner {
+  body[data-theme="system"] .verdict-banner {
     border-left: none !important;
     border: 1px solid #1f1f23 !important;
   }
 }
 
 @media (prefers-color-scheme: light) {
-  body[data-theme="system"],
-  body[data-theme="system"].theme-obsidian {
+  body[data-theme="system"] {
     background-color: #f8fafc !important;
     background-image: radial-gradient(circle at 50% 0%, rgba(37, 99, 235, 0.03), transparent 60%) !important;
     color: #0f172a !important;
@@ -2193,12 +2228,7 @@ body[data-theme="light"].theme-obsidian .stat-card {
   body[data-theme="system"] header,
   body[data-theme="system"] .evidence-card,
   body[data-theme="system"] .pref-menu,
-  body[data-theme="system"] .side-menu,
-  body[data-theme="system"].theme-obsidian .card,
-  body[data-theme="system"].theme-obsidian header,
-  body[data-theme="system"].theme-obsidian .evidence-card,
-  body[data-theme="system"].theme-obsidian .pref-menu,
-  body[data-theme="system"].theme-obsidian .side-menu {
+  body[data-theme="system"] .side-menu {
     background: #ffffff !important;
     backdrop-filter: none !important;
     border: 1px solid #e2e8f0 !important;
@@ -2206,40 +2236,30 @@ body[data-theme="light"].theme-obsidian .stat-card {
     color: #0f172a !important;
   }
   body[data-theme="system"] .card:hover,
-  body[data-theme="system"] .evidence-card:hover,
-  body[data-theme="system"].theme-obsidian .card:hover,
-  body[data-theme="system"].theme-obsidian .evidence-card:hover {
+  body[data-theme="system"] .evidence-card:hover {
     border-color: #cbd5e1 !important;
   }
-  body[data-theme="system"] .upload-dropzone,
-  body[data-theme="system"].theme-obsidian .upload-dropzone {
+  body[data-theme="system"] .upload-dropzone {
     background: #f1f5f9 !important;
     border: 1.5px dashed #cbd5e1 !important;
   }
   body[data-theme="system"] .upload-dropzone:hover,
-  body[data-theme="system"] .upload-dropzone.dragover,
-  body[data-theme="system"].theme-obsidian .upload-dropzone:hover,
-  body[data-theme="system"].theme-obsidian .upload-dropzone.dragover {
+  body[data-theme="system"] .upload-dropzone.dragover {
     background: #f1f5f9 !important;
     border: 1.5px dashed #cbd5e1 !important;
     box-shadow: 0 0 25px rgba(37, 99, 235, 0.14), inset 0 0 15px rgba(37, 99, 235, 0.03) !important;
     transform: translateY(-2px);
   }
   body[data-theme="system"] .upload-dropzone:hover .upload-title,
-  body[data-theme="system"] .upload-dropzone.dragover .upload-title,
-  body[data-theme="system"].theme-obsidian .upload-dropzone:hover .upload-title,
-  body[data-theme="system"].theme-obsidian .upload-dropzone.dragover .upload-title {
+  body[data-theme="system"] .upload-dropzone.dragover .upload-title {
     color: #2563eb !important;
   }
   body[data-theme="system"] .upload-dropzone:hover .upload-icon,
-  body[data-theme="system"] .upload-dropzone.dragover .upload-icon,
-  body[data-theme="system"].theme-obsidian .upload-dropzone:hover .upload-icon,
-  body[data-theme="system"].theme-obsidian .upload-dropzone.dragover .upload-icon {
+  body[data-theme="system"] .upload-dropzone.dragover .upload-icon {
     transform: scale(1.08);
     color: #2563eb !important;
   }
-  body[data-theme="system"] #pref-menu .custom-dropdown-trigger,
-  body[data-theme="system"].theme-obsidian #pref-menu .custom-dropdown-trigger {
+  body[data-theme="system"] #pref-menu .custom-dropdown-trigger {
     background: #ffffff !important;
     border: 1px solid #e2e8f0 !important;
     color: #0f172a !important;
@@ -2247,35 +2267,29 @@ body[data-theme="light"].theme-obsidian .stat-card {
     padding: 0.6rem 1rem !important;
   }
   body[data-theme="system"] #pref-menu .custom-dropdown-wrapper:focus .custom-dropdown-trigger,
-  body[data-theme="system"] #pref-menu .custom-dropdown-trigger:hover,
-  body[data-theme="system"].theme-obsidian #pref-menu .custom-dropdown-trigger:hover {
+  body[data-theme="system"] #pref-menu .custom-dropdown-trigger:hover {
     border-color: #2563eb !important;
     box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.12) !important;
   }
-  body[data-theme="system"] #pref-menu .custom-dropdown-menu,
-  body[data-theme="system"].theme-obsidian #pref-menu .custom-dropdown-menu {
+  body[data-theme="system"] #pref-menu .custom-dropdown-menu {
     background: #ffffff !important;
     border: 1px solid #e2e8f0 !important;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08) !important;
     border-radius: 16px !important;
     padding: 0.4rem !important;
   }
-  body[data-theme="system"] #pref-menu .custom-dropdown-item,
-  body[data-theme="system"].theme-obsidian #pref-menu .custom-dropdown-item {
+  body[data-theme="system"] #pref-menu .custom-dropdown-item {
     border-radius: 9999px !important;
     padding: 0.45rem 0.85rem !important;
     margin: 0.15rem 0 !important;
     color: #334155 !important;
   }
   body[data-theme="system"] #pref-menu .custom-dropdown-item:hover,
-  body[data-theme="system"] #pref-menu .custom-dropdown-item.active,
-  body[data-theme="system"].theme-obsidian #pref-menu .custom-dropdown-item:hover,
-  body[data-theme="system"].theme-obsidian #pref-menu .custom-dropdown-item.active {
+  body[data-theme="system"] #pref-menu .custom-dropdown-item.active {
     background: rgba(37, 99, 235, 0.08) !important;
     color: #2563eb !important;
   }
-  body[data-theme="system"] .verdict-banner,
-  body[data-theme="system"].theme-obsidian .verdict-banner {
+  body[data-theme="system"] .verdict-banner {
     border-left: none !important;
     border: 1px solid #e2e8f0 !important;
   }
@@ -2858,7 +2872,57 @@ body[data-theme="light"].theme-obsidian .cert-cancel-btn:hover {
 
 </style>
 </head>
-<body data-theme="dark" class="theme-obsidian">
+<body data-theme="dark" class="theme-grid">
+
+  <!-- Copy / Preview Notification Banner with Style Switcher -->
+  <div style="background: linear-gradient(90deg, #090d16, #0f172a); color: #ffffff; padding: 0.65rem 1.25rem; font-size: 0.85rem; font-weight: 600; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 0.75rem; border-bottom: 1px solid rgba(56, 189, 248, 0.25); z-index: 10000; position: relative;">
+    <div style="display:flex; align-items:center; gap:0.6rem;">
+      <span style="font-size:1.15rem;">🧪</span>
+      <span><strong>Copy Version Preview</strong>: Design Styles & Preferences Demo</span>
+    </div>
+    
+    <!-- All 6 Styles Switcher -->
+    <div style="display:flex; align-items:center; gap:0.35rem; background:rgba(0,0,0,0.45); padding:0.25rem 0.4rem; border-radius:8px; border:1px solid rgba(255,255,255,0.12); flex-wrap:wrap;">
+      <span style="font-size:0.75rem; color:#94a3b8; margin-right:0.2rem; font-weight:700;">Live Style:</span>
+      <button id="btn-style-grid" type="button" class="style-toggle-btn active" title="Glassmorphic Tech Grid with top radial glow">
+        📐 1. Tech Grid
+      </button>
+      <button id="btn-style-dots" type="button" class="style-toggle-btn" title="Subtle Dot Matrix with soft telemetry light">
+        ✦ 2. Dot Matrix
+      </button>
+      <button id="btn-style-waves" type="button" class="style-toggle-btn" title="Audio / Spectrogram Signal Waveforms">
+        🌊 3. Signal Waves
+      </button>
+      <button id="btn-style-aurora" type="button" class="style-toggle-btn" title="Ambient Cyber Aurora multi-color glow">
+        🌌 4. Cyber Aurora
+      </button>
+      <button id="btn-style-obsidian" type="button" class="style-toggle-btn" title="Ultra-clean Obsidian Pro matte black">
+        💎 5. Stealth Obsidian
+      </button>
+      <button id="btn-style-hex" type="button" class="style-toggle-btn" title="Cybersecurity Honeycomb Hexagonal Lattice">
+        🛡️ 6. Hex Lattice
+      </button>
+    </div>
+
+    <!-- Theme Mode Switcher (Dark / Light / System) -->
+    <div style="display:flex; align-items:center; gap:0.35rem; background:rgba(0,0,0,0.45); padding:0.25rem 0.4rem; border-radius:8px; border:1px solid rgba(255,255,255,0.12); flex-wrap:wrap;">
+      <span style="font-size:0.75rem; color:#94a3b8; margin-right:0.2rem; font-weight:700;">Theme:</span>
+      <button id="btn-theme-dark" type="button" class="theme-mode-btn active" title="Stealth Obsidian Dark Mode">
+        🌙 Dark
+      </button>
+      <button id="btn-theme-light" type="button" class="theme-mode-btn" title="Clinical Executive Light Mode">
+        ☀️ Light
+      </button>
+      <button id="btn-theme-system" type="button" class="theme-mode-btn" title="OS System Preference Match">
+        🌓 System
+      </button>
+    </div>
+
+    <div style="display:flex; align-items:center; gap:0.75rem;">
+      <span style="background:rgba(56,189,248,0.15); color:#38bdf8; border:1px solid rgba(56,189,248,0.3); padding:0.25rem 0.6rem; border-radius:4px; font-size:0.75rem;">Top-Right ⚙️ Prefs Active</span>
+      <a href="/" style="background: #ffffff; color: #0f172a; text-decoration: none; padding: 0.25rem 0.75rem; border-radius: 6px; font-size: 0.8rem; font-weight: 700; transition: transform 0.2s;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">← Return to Main</a>
+    </div>
+  </div>
 
   <!-- Top Navigation / Header -->
   <header style="padding-bottom: 0;">
@@ -2975,13 +3039,76 @@ body[data-theme="light"].theme-obsidian .cert-cancel-btn:hover {
         </div>
       </div>
 
-      <!-- SECTION 2: Heatmap Overlay Opacity (Colormap dropdown removed, only opacity slider) -->
-      <div style="border-top: 1px solid var(--border-color); padding-top: 1.15rem;">
-        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:0.35rem;">
-          <label style="font-size:0.82rem; font-weight:700; color:var(--text-muted); margin:0;">Heatmap Overlay Opacity</label>
-          <span id="pref-opacity-val" style="font-size:0.8rem; font-weight:700; color:var(--primary); font-family:var(--font-mono);">70%</span>
+      <!-- SECTION 2: Explainable AI (XAI) / Heatmap Preferences -->
+      <div style="border-top: 1px solid var(--border-color); padding-top: 1.25rem;">
+        <label style="display:block; font-size:0.82rem; font-weight:700; color:var(--text-muted); margin-bottom:0.5rem; text-transform:uppercase; letter-spacing:0.5px;">
+          XAI Heatmap Palette
+        </label>
+        <div class="custom-dropdown-wrapper" id="pref-palette-wrapper" tabindex="0" style="width:100%;">
+          <div class="custom-dropdown-trigger" style="padding:0.6rem;">
+            <span class="custom-dropdown-selected" id="pref-palette-selected">🌈 JET (Forensic Rainbow)</span>
+            <span class="custom-dropdown-arrow">▼</span>
+          </div>
+          <div class="custom-dropdown-menu">
+            <div class="custom-dropdown-item active" data-palette="jet">
+              <div class="item-icon">🌈</div>
+              <div class="item-text">
+                <strong>JET Colormap</strong>
+                <small style="color:var(--text-dim); display:block; font-size:0.75rem;">Standard Forensic Spectrum (Blue to Red)</small>
+              </div>
+            </div>
+            <div class="custom-dropdown-item" data-palette="viridis">
+              <div class="item-icon">🟣</div>
+              <div class="item-text">
+                <strong>VIRIDIS Colormap</strong>
+                <small style="color:var(--text-dim); display:block; font-size:0.75rem;">Perceptually Uniform & Accessible</small>
+              </div>
+            </div>
+            <div class="custom-dropdown-item" data-palette="inferno">
+              <div class="item-icon">🔥</div>
+              <div class="item-text">
+                <strong>INFERNO Colormap</strong>
+                <small style="color:var(--text-dim); display:block; font-size:0.75rem;">High-Contrast Thermal Peak Glow</small>
+              </div>
+            </div>
+            <div class="custom-dropdown-item" data-palette="plasma">
+              <div class="item-icon">⚡</div>
+              <div class="item-text">
+                <strong>PLASMA Colormap</strong>
+                <small style="color:var(--text-dim); display:block; font-size:0.75rem;">Vibrant Purple & Electric Yellow</small>
+              </div>
+            </div>
+            <div class="custom-dropdown-item" data-palette="turbo">
+              <div class="item-icon">🚀</div>
+              <div class="item-text">
+                <strong>TURBO Colormap</strong>
+                <small style="color:var(--text-dim); display:block; font-size:0.75rem;">Google Smooth High-Precision Rainbow</small>
+              </div>
+            </div>
+            <div class="custom-dropdown-item" data-palette="coolwarm">
+              <div class="item-icon">🌓</div>
+              <div class="item-text">
+                <strong>COOLWARM (Bipolar)</strong>
+                <small style="color:var(--text-dim); display:block; font-size:0.75rem;">Blue (Real) ↔ Red (Fake) Divergence</small>
+              </div>
+            </div>
+            <div class="custom-dropdown-item" data-palette="bone">
+              <div class="item-icon">🦴</div>
+              <div class="item-text">
+                <strong>BONE / X-RAY</strong>
+                <small style="color:var(--text-dim); display:block; font-size:0.75rem;">Monochrome Forensic Radiograph</small>
+              </div>
+            </div>
+          </div>
         </div>
-        <input type="range" id="pref-opacity-slider" min="30" max="100" step="5" value="70" class="slider-input" style="width:100%; margin-top:0.4rem;">
+
+        <div style="margin-top:1rem;">
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:0.35rem;">
+            <label style="font-size:0.8rem; font-weight:600; color:var(--text-muted); margin:0;">Heatmap Overlay Opacity</label>
+            <span id="pref-opacity-val" style="font-size:0.8rem; font-weight:700; color:var(--primary); font-family:var(--font-mono);">70%</span>
+          </div>
+          <input type="range" id="pref-opacity-slider" min="30" max="100" step="5" value="70" class="slider-input" style="width:100%;">
+        </div>
       </div>
 
       <!-- SECTION 3: Live System Telemetry & Engine Specs -->
@@ -3069,7 +3196,22 @@ body[data-theme="light"].theme-obsidian .cert-cancel-btn:hover {
           <div class="upload-hint">Supports JPEG, PNG, WebP • Zero upload lag • Or press <strong>Ctrl + V</strong> anywhere to paste</div>
         </div>
 
+        <!-- 1-Click Benchmark Demo Samples -->
+        <div style="display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:0.6rem; margin-top:0.85rem; padding:0.6rem 0.85rem; background:rgba(255,255,255,0.02); border:1px solid var(--border-color); border-radius:8px;">
+          <div style="display:flex; align-items:center; gap:0.5rem; font-size:0.82rem; color:var(--text-dim);">
+            <span>⚡ <strong>Quick Test:</strong></span>
+            <span>No image on hand? Try instant benchmark samples:</span>
+          </div>
+          <div style="display:flex; align-items:center; gap:0.5rem;">
+            <button type="button" id="btn-demo-real" class="btn" style="padding:0.32rem 0.75rem; font-size:0.78rem; border-radius:6px; background:rgba(16,185,129,0.1); border:1px solid rgba(16,185,129,0.3); color:#34d399; cursor:pointer; font-weight:700;">
+              📸 1-Click Real Photo
+            </button>
+            <button type="button" id="btn-demo-fake" class="btn" style="padding:0.32rem 0.75rem; font-size:0.78rem; border-radius:6px; background:rgba(239,68,68,0.1); border:1px solid rgba(239,68,68,0.3); color:#f87171; cursor:pointer; font-weight:700;">
+              🎭 1-Click Deepfake Sample
+            </button>
+          </div>
         </div>
+      </div>
 
       <!-- Laser Scanner Preview -->
       <div id="single-preview-wrapper" class="image-preview-wrapper" style="display:none; margin-bottom: 1.5rem;">
@@ -3161,15 +3303,42 @@ body[data-theme="light"].theme-obsidian .cert-cancel-btn:hover {
             </div>
           </div>
 
-          <!-- Right: Grad-CAM Visual Attention Map -->
+          <!-- Right: Grad-CAM Visual Attention Map & Forensic Split Slider -->
           <div class="card">
-            <h3 style="font-size:0.9rem; margin-bottom:0.75rem; display:flex; align-items:center; gap:0.5rem;">
-              <span>🔬</span> Grad-CAM Attention Heatmap (XAI)
-            </h3>
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:0.75rem; flex-wrap:wrap; gap:0.5rem;">
+              <h3 style="font-size:0.9rem; margin:0; display:flex; align-items:center; gap:0.5rem;">
+                <span>🔬</span> Grad-CAM Attention Heatmap (XAI)
+              </h3>
+              <div style="display:flex; gap:0.35rem;">
+                <button type="button" id="btn-view-heatmap" class="btn" style="padding:0.25rem 0.65rem; font-size:0.75rem; border-radius:6px; font-weight:700; background:var(--primary); color:#ffffff; border:1px solid var(--primary); cursor:pointer;">
+                  Heatmap
+                </button>
+                <button type="button" id="btn-view-curtain" class="btn" style="padding:0.25rem 0.65rem; font-size:0.75rem; border-radius:6px; font-weight:700; background:transparent; color:var(--text-muted); border:1px solid var(--border-color); cursor:pointer;" title="Interactive Before / After Split Slider">
+                  🪟 Curtain Slider
+                </button>
+                <button type="button" id="btn-view-zoom" class="btn" style="padding:0.25rem 0.65rem; font-size:0.75rem; border-radius:6px; font-weight:700; background:transparent; color:var(--text-muted); border:1px solid var(--border-color); cursor:pointer;" title="Fullscreen Zoom & Pan">
+                  🔍 Zoom
+                </button>
+              </div>
+            </div>
 
             <!-- Standard Heatmap View Container -->
-            <div id="heatmap-standard-wrapper" style="border-radius:8px; overflow:hidden; border: 1px solid var(--border-color); background:var(--bg-surface); box-shadow: 0 4px 16px rgba(0,0,0,0.1);">
+            <div id="heatmap-standard-wrapper" style="border-radius:8px; overflow:hidden; border: 1px solid var(--border-color); background:var(--bg-surface); box-shadow: 0 4px 16px rgba(0,0,0,0.1); cursor:zoom-in;">
               <img id="heatmap-overlay-img" style="width:100%; display:block;" alt="Grad-CAM Overlay" title="Click to zoom in high resolution">
+            </div>
+
+            <!-- Interactive Before/After Curtain Split Slider -->
+            <div id="curtain-slider-container" style="display:none; position:relative; width:100%; border-radius:8px; overflow:hidden; user-select:none; aspect-ratio:4/3; background:#000; border:1px solid var(--border-color); box-shadow:0 4px 20px rgba(0,0,0,0.3);">
+              <img id="curtain-base-img" style="position:absolute; top:0; left:0; width:100%; height:100%; object-fit:contain;" alt="Original Photo">
+              <div id="curtain-clip-wrapper" style="position:absolute; top:0; left:0; width:100%; height:100%; overflow:hidden; clip-path: polygon(0 0, 50% 0, 50% 100%, 0 100%);">
+                <img id="curtain-overlay-img" style="width:100%; height:100%; object-fit:contain;" alt="Grad-CAM Overlay">
+              </div>
+              <div id="curtain-divider-line" style="position:absolute; top:0; left:50%; width:2px; height:100%; background:#38bdf8; box-shadow:0 0 10px #38bdf8; pointer-events:none; z-index:5;">
+                <div style="position:absolute; top:50%; left:50%; transform:translate(-50%, -50%); width:32px; height:32px; border-radius:50%; background:#0f172a; border:2px solid #38bdf8; color:#38bdf8; display:flex; align-items:center; justify-content:center; font-size:0.75rem; font-weight:800; box-shadow:0 0 14px rgba(56,189,248,0.7);">◀▶</div>
+              </div>
+              <input type="range" id="curtain-range-input" min="0" max="100" value="50" style="position:absolute; top:0; left:0; width:100%; height:100%; opacity:0; cursor:ew-resize; margin:0; z-index:10;">
+              <div style="position:absolute; bottom:8px; left:12px; font-size:0.72rem; font-weight:700; color:#fff; background:rgba(0,0,0,0.6); padding:2px 8px; border-radius:4px; pointer-events:none; z-index:6;">◀ Original</div>
+              <div style="position:absolute; bottom:8px; right:12px; font-size:0.72rem; font-weight:700; color:#38bdf8; background:rgba(0,0,0,0.6); padding:2px 8px; border-radius:4px; pointer-events:none; z-index:6;">Heatmap (XAI) ▶</div>
             </div>
 
             <!-- Heatmap Color Scale Legend & Forensic Guide -->
@@ -3640,6 +3809,55 @@ body[data-theme="light"].theme-obsidian .cert-cancel-btn:hover {
         });
       }
 
+      // 3. Colormap Palette Dropdown Handler
+      const paletteWrapper = document.getElementById("pref-palette-wrapper");
+      const paletteSelected = document.getElementById("pref-palette-selected");
+      if (paletteWrapper && paletteSelected) {
+        const trigger = paletteWrapper.querySelector(".custom-dropdown-trigger");
+        const items = paletteWrapper.querySelectorAll(".custom-dropdown-item");
+
+        trigger.addEventListener("click", function(e) {
+          e.stopPropagation();
+          paletteWrapper.classList.toggle("open");
+        });
+
+        items.forEach(item => {
+          item.addEventListener("click", function(e) {
+            e.stopPropagation();
+            items.forEach(i => i.classList.remove("active"));
+            item.classList.add("active");
+            const pal = item.getAttribute("data-palette");
+            const label = item.querySelector("strong").textContent;
+            const icon = item.querySelector(".item-icon").textContent;
+            paletteSelected.textContent = `${icon} ${label}`;
+            paletteWrapper.classList.remove("open");
+
+            // Apply palette visual filter effect to heatmap if present
+            if (heatmapImg) {
+              if (pal === "viridis") {
+                heatmapImg.style.filter = "hue-rotate(90deg) saturate(1.3)";
+              } else if (pal === "inferno") {
+                heatmapImg.style.filter = "hue-rotate(180deg) saturate(1.8) contrast(1.2)";
+              } else if (pal === "plasma") {
+                heatmapImg.style.filter = "hue-rotate(140deg) saturate(1.6) brightness(1.1)";
+              } else if (pal === "turbo") {
+                heatmapImg.style.filter = "hue-rotate(35deg) saturate(1.5)";
+              } else if (pal === "coolwarm") {
+                heatmapImg.style.filter = "hue-rotate(240deg) saturate(1.4) contrast(1.15)";
+              } else if (pal === "bone") {
+                heatmapImg.style.filter = "grayscale(100%) contrast(1.35) brightness(0.95)";
+              } else {
+                heatmapImg.style.filter = "none";
+              }
+            }
+          });
+        });
+
+        document.addEventListener("click", function() {
+          paletteWrapper.classList.remove("open");
+        });
+      }
+
       // 4. Clear Cache & Reset Workspace Handler
       const clearCacheBtn = document.getElementById("clear-cache-btn");
       const clearCacheToast = document.getElementById("clear-cache-toast");
@@ -3734,27 +3952,74 @@ body[data-theme="light"].theme-obsidian .cert-cancel-btn:hover {
         }
       } catch(e) {}
 
-      
-      // Hook single dropzone & file input directly to runDirectFileAnalysis
-      const singleDropzone = document.getElementById("single-dropzone");
-      const singleFileInput = document.getElementById("single-file-input");
-      if (singleDropzone && singleFileInput) {
-        singleDropzone.addEventListener("click", () => singleFileInput.click());
-        singleDropzone.addEventListener("dragover", (e) => { e.preventDefault(); singleDropzone.classList.add("dragover"); });
-        singleDropzone.addEventListener("dragleave", (e) => { e.preventDefault(); singleDropzone.classList.remove("dragover"); });
-        singleDropzone.addEventListener("drop", (e) => {
-          e.preventDefault();
-          singleDropzone.classList.remove("dragover");
-          if (e.dataTransfer && e.dataTransfer.files && e.dataTransfer.files[0]) {
-            runDirectFileAnalysis(e.dataTransfer.files[0]);
+      // 5b. Direct Theme Mode Switcher (Dark / Light / System)
+      window.setThemeModeDirect = function(theme) {
+        document.body.setAttribute('data-theme', theme);
+        try {
+          localStorage.setItem('signalscope_theme', theme);
+        } catch(e) {}
+        
+        // Sync banner buttons
+        ['dark', 'light', 'system'].forEach(t => {
+          const btn = document.getElementById(`btn-theme-${t}`);
+          if (btn) {
+            if (t === theme) {
+              btn.classList.add('active');
+            } else {
+              btn.classList.remove('active');
+            }
           }
         });
-        singleFileInput.addEventListener("change", (e) => {
-          if (e.target.files && e.target.files[0]) {
-            runDirectFileAnalysis(e.target.files[0]);
+
+        // Sync hidden input and custom dropdown in Preferences
+        const themeInput = document.getElementById('theme-selector');
+        if (themeInput) {
+          themeInput.value = theme;
+          const wrapper = themeInput.closest('.custom-dropdown-wrapper');
+          if (wrapper) {
+            const items = wrapper.querySelectorAll('.custom-dropdown-item');
+            const selectedText = wrapper.querySelector('.custom-dropdown-selected');
+            items.forEach(i => {
+              if (i.getAttribute('data-value') === theme) {
+                i.classList.add('active');
+                const icon = i.querySelector('.item-icon') ? i.querySelector('.item-icon').textContent : '';
+                const title = i.querySelector('strong') ? i.querySelector('strong').textContent : '';
+                if (selectedText) selectedText.textContent = `${icon} ${title}`.trim();
+              } else {
+                i.classList.remove('active');
+              }
+            });
           }
+        }
+      };
+
+      ['dark', 'light', 'system'].forEach(t => {
+        const btn = document.getElementById(`btn-theme-${t}`);
+        if (btn) {
+          btn.addEventListener('click', () => window.setThemeModeDirect(t));
+        }
+      });
+
+      // Synchronize when changed from Preferences menu
+      const themeSelectorElem = document.getElementById("theme-selector");
+      if (themeSelectorElem) {
+        themeSelectorElem.addEventListener("change", (e) => {
+          const val = e.target.value;
+          ['dark', 'light', 'system'].forEach(t => {
+            const btn = document.getElementById(`btn-theme-${t}`);
+            if (btn) {
+              if (t === val) btn.classList.add('active');
+              else btn.classList.remove('active');
+            }
+          });
         });
       }
+
+      // Initial theme mode restore
+      try {
+        const savedTheme = localStorage.getItem('signalscope_theme') || 'dark';
+        window.setThemeModeDirect(savedTheme);
+      } catch(e) {}
 
       // Direct File Analysis Engine (Guarantees execution for Demos & Ctrl+V)
       function runDirectFileAnalysis(file) {
@@ -3798,81 +4063,30 @@ body[data-theme="light"].theme-obsidian .cert-cancel-btn:hover {
           const fill = document.getElementById("confidence-fill");
           const pctLabel = document.getElementById("confidence-pct");
 
-          let verdictType = data.verdict_type;
-          const prob = typeof data.raw_prob_fake === 'number' ? data.raw_prob_fake : (data.confidence_pct ? data.confidence_pct / 100 : 0.5);
-          const vLower = (data.verdict || '').toLowerCase();
-          
-          if (verdictType === 'inconclusive' || vLower.includes('inconclusive') || (prob >= 0.40 && prob <= 0.60) || (data.confidence_pct >= 40 && data.confidence_pct <= 60)) {
-            verdictType = 'inconclusive';
-          } else if (data.is_fake || verdictType === 'fake' || vLower.includes('ai')) {
-            verdictType = 'fake';
-          } else {
-            verdictType = 'real';
-          }
-
-          if (resultsContainer) resultsContainer.setAttribute("data-verdict", verdictType);
-
-          if (verdictType === 'inconclusive') {
-            if (banner) {
-              banner.className = "verdict-banner verdict-inconclusive";
-              banner.style.borderLeft = "";
-              banner.style.background = "rgba(245, 158, 11, 0.08)";
-              banner.style.borderColor = "rgba(245, 158, 11, 0.25)";
-            }
-            if (heading) {
-              heading.innerHTML = "⚠️ Inconclusive / Ambiguous";
-              heading.style.color = "#fbbf24";
-            }
-            if (fill) fill.className = "confidence-progress-fill fill-inconclusive";
-            if (sub) sub.innerHTML = `Operating Threshold: 0.50 (Borderline Ambiguity Zone) | Margin: ${data.confidence_pct}% | Latency: ⚡ ${data.latency_ms} ms`;
-          } else if (verdictType === 'fake') {
-            if (banner) {
-              banner.className = "verdict-banner verdict-fake";
-              banner.style.borderLeft = "";
-              banner.style.background = "";
-              banner.style.borderColor = "";
-            }
-            if (heading) {
-              heading.innerHTML = "🤖 Likely AI-Generated";
-              heading.style.color = "";
-            }
+          let verdictType = data.verdict_type || (data.is_fake ? 'fake' : 'real');
+          if (verdictType === 'fake') {
+            if (banner) { banner.className = "verdict-banner verdict-fake"; banner.style.borderLeft = ""; }
+            if (heading) heading.innerHTML = "🤖 Likely AI-Generated";
             if (fill) fill.className = "confidence-progress-fill fill-fake";
-            if (sub) sub.innerHTML = `Operating Threshold: ${data.threshold ? data.threshold.toFixed(2) : '0.50'} | Confidence: ${data.confidence_pct}% | Latency: ⚡ ${data.latency_ms} ms`;
           } else {
-            if (banner) {
-              banner.className = "verdict-banner verdict-real";
-              banner.style.borderLeft = "";
-              banner.style.background = "";
-              banner.style.borderColor = "";
-            }
-            if (heading) {
-              heading.innerHTML = "📸 Likely Authentic Real";
-              heading.style.color = "";
-            }
+            if (banner) { banner.className = "verdict-banner verdict-real"; banner.style.borderLeft = ""; }
+            if (heading) heading.innerHTML = "📸 Likely Authentic Real";
             if (fill) fill.className = "confidence-progress-fill fill-real";
-            if (sub) sub.innerHTML = `Operating Threshold: ${data.threshold ? data.threshold.toFixed(2) : '0.50'} | Confidence: ${data.confidence_pct}% | Latency: ⚡ ${data.latency_ms} ms`;
           }
 
+          if (sub) sub.innerHTML = `Operating Threshold: ${data.threshold ? data.threshold.toFixed(2) : '0.50'} | Confidence: ${data.confidence_pct}% | Latency: ⚡ ${data.latency_ms} ms`;
           if (fill) fill.style.width = data.confidence_pct + "%";
           if (pctLabel) pctLabel.textContent = data.confidence_pct + "%";
 
           const evModelVal = document.getElementById("ev-model-val");
           const evModelDesc = document.getElementById("ev-model-desc");
           if (evModelVal) evModelVal.textContent = data.confidence_pct + "%";
-          if (evModelDesc) {
-            evModelDesc.textContent = (verdictType === 'inconclusive') 
-              ? "Borderline Margin / Statistical Ambiguity" 
-              : (verdictType === 'fake' ? "Strong AI Signal Detected" : "Consistent with Authentic Photo");
-          }
+          if (evModelDesc) evModelDesc.textContent = data.is_fake ? "Strong AI Signal Detected" : "Consistent with Authentic Photo";
 
           const evSrmVal = document.getElementById("ev-srm-val");
           const evSrmDesc = document.getElementById("ev-srm-desc");
-          if (evSrmVal) {
-            evSrmVal.textContent = (verdictType === 'inconclusive') ? "Ambiguous Noise" : (verdictType === 'fake' ? "Artefacts Detected" : "Clean Noise");
-          }
-          if (evSrmDesc) {
-            evSrmDesc.textContent = (verdictType === 'inconclusive') ? "Equivocal Noise Characteristics" : (verdictType === 'fake' ? "High-Frequency Noise Residuals" : "Natural Frequencies Preserved");
-          }
+          if (evSrmVal) evSrmVal.textContent = data.is_fake ? "Artefacts Detected" : "Clean Noise";
+          if (evSrmDesc) evSrmDesc.textContent = data.is_fake ? "High-Frequency Noise Residuals" : "Natural Frequencies Preserved";
 
           const evPerfVal = document.getElementById("ev-perf-val");
           if (evPerfVal) evPerfVal.textContent = `${data.latency_ms} ms`;
@@ -3883,19 +4097,7 @@ body[data-theme="light"].theme-obsidian .cert-cancel-btn:hover {
           }
 
           const aiExp = document.getElementById("ai-explanation-text");
-          if (aiExp) {
-            if (data.explanation) aiExp.textContent = data.explanation;
-            if (verdictType === 'inconclusive') {
-              aiExp.className = "ai-diagnostic-callout verdict-inconclusive";
-              aiExp.style.borderLeft = "4px solid #f59e0b";
-            } else if (verdictType === 'fake') {
-              aiExp.className = "ai-diagnostic-callout verdict-fake";
-              aiExp.style.borderLeft = "4px solid #ef4444";
-            } else {
-              aiExp.className = "ai-diagnostic-callout verdict-real";
-              aiExp.style.borderLeft = "4px solid #10b981";
-            }
-          }
+          if (aiExp && data.explanation) aiExp.textContent = data.explanation;
 
           const meta = data.metadata || {};
           const metaTable = document.getElementById("metadata-table-body");
@@ -3911,6 +4113,7 @@ body[data-theme="light"].theme-obsidian .cert-cancel-btn:hover {
             `;
           }
 
+          syncCurtainImages();
           if (resultsContainer) resultsContainer.scrollIntoView({ behavior: "smooth" });
         })
         .catch(err => {
@@ -3938,6 +4141,94 @@ body[data-theme="light"].theme-obsidian .cert-cancel-btn:hover {
         }
       });
 
+      // 7. 1-Click Benchmark Demo Samples
+      const btnDemoReal = document.getElementById("btn-demo-real");
+      const btnDemoFake = document.getElementById("btn-demo-fake");
+
+      async function triggerDemoSample(type) {
+        const url = type === 'real' ? '/static/samples/sample_real.jpg' : '/static/samples/sample_fake.jpg';
+        const filename = type === 'real' ? 'sample_real_benchmark.jpg' : 'sample_synthetic_deepfake.jpg';
+        try {
+          const res = await fetch(url);
+          if (!res.ok) throw new Error("HTTP " + res.status);
+          const blob = await res.blob();
+          const file = new File([blob], filename, { type: 'image/jpeg' });
+          const tabBtn = document.querySelector('[data-tab="tab-single"]');
+          if (tabBtn) tabBtn.click();
+          runDirectFileAnalysis(file);
+        } catch(e) {
+          console.error("Demo trigger failed", e);
+          alert("Demo error: " + e.message);
+        }
+      }
+
+      if (btnDemoReal) btnDemoReal.addEventListener("click", () => triggerDemoSample('real'));
+      if (btnDemoFake) btnDemoFake.addEventListener("click", () => triggerDemoSample('fake'));
+
+      // 8. Grad-CAM View Switcher & Interactive Curtain Slider
+      const btnViewHeatmap = document.getElementById("btn-view-heatmap");
+      const btnViewCurtain = document.getElementById("btn-view-curtain");
+      const btnViewZoom = document.getElementById("btn-view-zoom");
+      const heatmapWrapper = document.getElementById("heatmap-standard-wrapper");
+      const curtainWrapper = document.getElementById("curtain-slider-container");
+      const curtainBaseImg = document.getElementById("curtain-base-img");
+      const curtainOverlayImg = document.getElementById("curtain-overlay-img");
+      const curtainRange = document.getElementById("curtain-range-input");
+      const curtainClip = document.getElementById("curtain-clip-wrapper");
+      const curtainLine = document.getElementById("curtain-divider-line");
+
+      function syncCurtainImages() {
+        const singlePreviewImg = document.getElementById("single-preview-img");
+        const heatmapImg = document.getElementById("heatmap-overlay-img");
+        if (singlePreviewImg && singlePreviewImg.src && curtainOverlayImg) {
+          curtainOverlayImg.src = singlePreviewImg.src;
+        }
+        if (heatmapImg && heatmapImg.src && curtainBaseImg) {
+          curtainBaseImg.src = heatmapImg.src;
+        }
+        if (curtainWrapper) {
+          curtainWrapper.style.minHeight = "340px";
+        }
+      }
+
+      const heatmapImgElem = document.getElementById("heatmap-overlay-img");
+      if (heatmapImgElem) {
+        heatmapImgElem.addEventListener("load", syncCurtainImages);
+      }
+
+      if (btnViewHeatmap && btnViewCurtain) {
+        btnViewHeatmap.addEventListener("click", function() {
+          btnViewHeatmap.style.background = "var(--primary)";
+          btnViewHeatmap.style.color = "#fff";
+          btnViewHeatmap.style.borderColor = "var(--primary)";
+          btnViewCurtain.style.background = "transparent";
+          btnViewCurtain.style.color = "var(--text-muted)";
+          btnViewCurtain.style.borderColor = "var(--border-color)";
+          if (heatmapWrapper) heatmapWrapper.style.display = "block";
+          if (curtainWrapper) curtainWrapper.style.display = "none";
+        });
+
+        btnViewCurtain.addEventListener("click", function() {
+          syncCurtainImages();
+          btnViewCurtain.style.background = "var(--primary)";
+          btnViewCurtain.style.color = "#fff";
+          btnViewCurtain.style.borderColor = "var(--primary)";
+          btnViewHeatmap.style.background = "transparent";
+          btnViewHeatmap.style.color = "var(--text-muted)";
+          btnViewHeatmap.style.borderColor = "var(--border-color)";
+          if (heatmapWrapper) heatmapWrapper.style.display = "none";
+          if (curtainWrapper) curtainWrapper.style.display = "block";
+        });
+      }
+
+      if (curtainRange && curtainClip && curtainLine) {
+        curtainRange.addEventListener("input", function(e) {
+          const val = e.target.value;
+          curtainClip.style.clipPath = `polygon(0 0, ${val}% 0, ${val}% 100%, 0 100%)`;
+          curtainLine.style.left = `${val}%`;
+        });
+      }
+
       // 9. Fullscreen Lightbox Zoom Modal
       const lightboxModal = document.getElementById("lightbox-modal");
       const lightboxImg = document.getElementById("lightbox-img");
@@ -3949,7 +4240,7 @@ body[data-theme="light"].theme-obsidian .cert-cancel-btn:hover {
 
       function openLightbox() {
         const heatmapImg = document.getElementById("heatmap-overlay-img");
-        if (!heatmapImg || !heatmapImg.src || heatmapImg.src.endsWith("/") || heatmapImg.src.endsWith("index.html") || heatmapImg.src.endsWith("index_preview.html")) {
+        if (!heatmapImg || !heatmapImg.src || heatmapImg.src.endsWith("/") || heatmapImg.src.endsWith("index_preview.html")) {
           alert("Please analyze an image first to view the high-resolution heatmap.");
           return;
         }
@@ -3960,8 +4251,8 @@ body[data-theme="light"].theme-obsidian .cert-cancel-btn:hover {
         if (lightboxModal) lightboxModal.style.display = "flex";
       }
 
-      const heatmapWrapperElem = document.getElementById("heatmap-standard-wrapper");
-      if (heatmapWrapperElem) heatmapWrapperElem.addEventListener("click", openLightbox);
+      if (btnViewZoom) btnViewZoom.addEventListener("click", openLightbox);
+      if (heatmapWrapper) heatmapWrapper.addEventListener("click", openLightbox);
 
       if (lightboxClose) {
         lightboxClose.addEventListener("click", () => {
