@@ -9,4 +9,5 @@ output/
 outputs/
 temp_*
 *.log
-data/train/
+data/
+*.exe

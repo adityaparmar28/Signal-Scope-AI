@@ -189,8 +189,8 @@ async def analyze_image(file: UploadFile = File(...)):
         "confidence_pct": confidence_pct,
         "raw_prob_fake": round(prob_fake, 4),
         "threshold": 0.50,
-        "model_signal": "Strong AI Signal 🤖" if is_fake else "Consistent with Authentic Photo 📸",
-        "srm_signal": "High-Frequency Artefacts Detected 🔬" if is_fake else "Natural Frequencies Preserved 🌿",
+        "model_signal": "Strong AI Signal Detected" if is_fake else "Consistent with Authentic Photo",
+        "srm_signal": "High-Frequency Artefacts Detected" if is_fake else "Natural Frequencies Preserved",
         "metadata": {
             "width": image.width,
             "height": image.height,
@@ -202,6 +202,30 @@ async def analyze_image(file: UploadFile = File(...)):
         "heatmap_overlay": heatmap_b64,
         "latency_ms": processing_time_ms
     }
+
+def get_forensic_evidence(is_fake: bool, prob_fake: float, confidence_pct: float) -> str:
+    if is_fake:
+        if prob_fake >= 0.95:
+            return "High-Frequency Residuals & Diffusion Latent Noise"
+        elif prob_fake >= 0.88:
+            return "Generative Checkerboard & Spectral Peaks Discrepancy"
+        elif prob_fake >= 0.80:
+            return "Synthetic Texture Micro-Smoothing & Phase Anomaly"
+        elif prob_fake >= 0.68:
+            return "Unnatural Boundary Gradient & Pixel Interpolation"
+        else:
+            return "Boundary Feature Artifacts & Synthesized Spectral Noise"
+    else:
+        if confidence_pct >= 94:
+            return "Authentic Camera PRNU & Poisson Photon Distribution"
+        elif confidence_pct >= 88:
+            return "Natural Optical Bokeh & Authentic Spectral Continuity"
+        elif confidence_pct >= 80:
+            return "Bayer Filter Demosaicing & Realistic Micro-Textures"
+        elif confidence_pct >= 68:
+            return "Natural Spatial Gradient & Sensor Noise Floor"
+        else:
+            return "Preserved Discrete Cosine Transform (DCT) Coefficients"
 
 @app.post("/api/batch")
 async def batch_scan(files: List[UploadFile] = File(...)):
@@ -223,14 +247,15 @@ async def batch_scan(files: List[UploadFile] = File(...)):
 
             is_fake = prob_fake > 0.50
             confidence = prob_fake if is_fake else (1.0 - prob_fake)
+            conf_pct = round(confidence * 100, 2)
 
             results.append({
                 "filename": file.filename,
                 "verdict": "Likely AI-Generated" if is_fake else "Likely Real",
                 "is_fake": is_fake,
-                "confidence_pct": round(confidence * 100, 2),
-                "status": "⚠️ Flagged (AI)" if is_fake else "✅ Authentic (Real)",
-                "evidence": "Spectral & Texture Artefacts" if is_fake else "Natural Photo Micro-textures"
+                "confidence_pct": conf_pct,
+                "status": "Flagged (AI)" if is_fake else "Authentic (Real)",
+                "evidence": get_forensic_evidence(is_fake, prob_fake, conf_pct)
             })
         except Exception as e:
             results.append({
@@ -238,7 +263,7 @@ async def batch_scan(files: List[UploadFile] = File(...)):
                 "verdict": "Error",
                 "is_fake": False,
                 "confidence_pct": 0.0,
-                "status": f"❌ Error: {str(e)[:30]}",
+                "status": f"Error: {str(e)[:30]}",
                 "evidence": "Failed to decode image"
             })
 
@@ -315,24 +340,48 @@ async def robustness_test(
     _, buffer = cv2.imencode(".jpg", deg_bgr, [int(cv2.IMWRITE_JPEG_QUALITY), 85])
     degraded_b64 = "data:image/jpeg;base64," + base64.b64encode(buffer).decode("utf-8")
 
-    drift = round(abs(orig_conf - deg_conf) * 100, 2)
-    verdict_stable = orig_is_fake == deg_is_fake
+    orig_conf_pct = round(orig_conf * 100, 2)
+    deg_conf_pct = round(deg_conf * 100, 2)
+    drift_signed = round(deg_conf_pct - orig_conf_pct, 2)
+    abs_drift = abs(drift_signed)
+    verdict_flipped = (orig_is_fake != deg_is_fake)
+
+    if verdict_flipped:
+        verdict_status = "flipped"
+        stability_note = f"Critical Failure: Classification Inverted ({orig_conf_pct:.1f}% -> {deg_conf_pct:.1f}%)"
+    elif abs_drift >= 7.0:
+        verdict_status = "vulnerable"
+        if drift_signed < 0:
+            stability_note = f"Vulnerable: Significant Confidence Loss ({drift_signed:+.2f}%) under {degradation_type}"
+        else:
+            stability_note = f"Perturbation Shift: Confidence Drifted ({drift_signed:+.2f}%) under {degradation_type}"
+    elif abs_drift >= 3.0:
+        verdict_status = "moderate"
+        stability_note = f"Moderate Stability: Partial Drift ({drift_signed:+.2f}%) under {degradation_type}"
+    else:
+        verdict_status = "stable"
+        if orig_is_fake:
+            stability_note = f"Confirmed AI Signature: Invariant Under Degradation ({drift_signed:+.2f}%)"
+        else:
+            stability_note = f"Authentic Sensor Signature: Resilient Under Stress ({drift_signed:+.2f}%)"
 
     return {
         "original": {
             "verdict": "Likely AI-Generated" if orig_is_fake else "Likely Real",
             "is_fake": orig_is_fake,
-            "confidence_pct": round(orig_conf * 100, 2)
+            "confidence_pct": orig_conf_pct
         },
         "degraded": {
             "verdict": "Likely AI-Generated" if deg_is_fake else "Likely Real",
             "is_fake": deg_is_fake,
-            "confidence_pct": round(deg_conf * 100, 2)
+            "confidence_pct": deg_conf_pct
         },
         "degraded_image": degraded_b64,
-        "confidence_drift_pct": drift,
-        "verdict_stable": verdict_stable,
-        "stability_note": "Verdict remained stable under degradation 🛡️" if verdict_stable else "Verdict shifted under severe degradation ⚠️"
+        "confidence_drift_pct": abs_drift,
+        "drift_signed": drift_signed,
+        "verdict_status": verdict_status,
+        "verdict_stable": (verdict_status == "stable"),
+        "stability_note": stability_note
     }
 
 STATIC_DIR = os.path.join(BASE_DIR, "static")
@@ -357,6 +406,27 @@ def serve_index():
     if os.path.exists(index_path):
         return FileResponse(index_path)
     return JSONResponse({"status": "SignalScope v2 Backend Online. Please create index.html"})
+
+@app.get("/index.html")
+def serve_index_html():
+    return serve_index()
+
+@app.get("/index_with_menu.html")
+def serve_index_with_menu():
+    p = os.path.join(BASE_DIR, "index_with_menu.html")
+    if os.path.exists(p):
+        return FileResponse(p)
+    return serve_index()
+
+@app.get("/style.css")
+def serve_root_css():
+    p = os.path.join(STATIC_DIR, "css", "style.css")
+    return FileResponse(p, media_type="text/css")
+
+@app.get("/app.js")
+def serve_root_js():
+    p = os.path.join(STATIC_DIR, "js", "app.js")
+    return FileResponse(p, media_type="application/javascript")
 
 if __name__ == "__main__":
     import uvicorn

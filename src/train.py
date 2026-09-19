@@ -28,10 +28,13 @@ from model.backbone import SignalScopeDetector
 from src.dataset import RealVsAIDataset, get_training_transforms, get_val_transforms
 
 
-def train_one_epoch(model, loader, criterion, optimizer, scheduler, device, scaler):
+from tqdm import tqdm
+
+def train_one_epoch(model, loader, criterion, optimizer, scheduler, device, scaler, epoch=1, total_epochs=10):
     model.train()
     running_loss = 0.0
-    for images, labels, _ in loader:
+    pbar = tqdm(loader, desc=f"Epoch {epoch:02d}/{total_epochs:02d} [Train]", leave=False)
+    for images, labels, _ in pbar:
         images = images.to(device)
         labels = labels.to(device).unsqueeze(1)
 
@@ -55,17 +58,19 @@ def train_one_epoch(model, loader, criterion, optimizer, scheduler, device, scal
             scheduler.step()
 
         running_loss += loss.item() * images.size(0)
+        pbar.set_postfix({"loss": f"{loss.item():.4f}"})
 
     return running_loss / len(loader.dataset)
 
 
-def evaluate_epoch(model, loader, device):
+def evaluate_epoch(model, loader, device, epoch=1, total_epochs=10):
     model.eval()
     all_preds = []
     all_targets = []
 
+    pbar = tqdm(loader, desc=f"Epoch {epoch:02d}/{total_epochs:02d} [Valid]", leave=False)
     with torch.no_grad():
-        for images, labels, _ in loader:
+        for images, labels, _ in pbar:
             images = images.to(device)
             with autocast(device_type="cuda", enabled=(device.type == "cuda")):
                 logits, _ = model(images)
@@ -155,8 +160,8 @@ def main():
 
     for epoch in range(1, args.epochs + 1):
         t0 = time.time()
-        train_loss = train_one_epoch(model, train_loader, criterion, optimizer, scheduler, device, scaler)
-        val_auc, val_f1 = evaluate_epoch(model, val_loader, device)
+        train_loss = train_one_epoch(model, train_loader, criterion, optimizer, scheduler, device, scaler, epoch=epoch, total_epochs=args.epochs)
+        val_auc, val_f1 = evaluate_epoch(model, val_loader, device, epoch=epoch, total_epochs=args.epochs)
         elapsed = time.time() - t0
 
         lr_now = optimizer.param_groups[0]['lr']

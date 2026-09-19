@@ -5,6 +5,7 @@
 
 document.addEventListener("DOMContentLoaded", () => {
   initThemeSelector();
+  initCustomDropdowns();
   initTabs();
   initSingleImageForensics();
   initBatchScanner();
@@ -19,9 +20,26 @@ function initThemeSelector() {
   const themeSelector = document.getElementById("theme-selector");
   if (!themeSelector) return;
 
-  const savedTheme = localStorage.getItem("signalscope_theme") || "system";
+  const savedTheme = localStorage.getItem("signalscope_theme") || "dark";
   themeSelector.value = savedTheme;
   document.body.setAttribute("data-theme", savedTheme);
+
+  // Sync custom UI if it exists
+  const wrapper = themeSelector.closest('.custom-dropdown-wrapper');
+  if (wrapper) {
+      const items = wrapper.querySelectorAll('.custom-dropdown-item');
+      const selectedText = wrapper.querySelector('.custom-dropdown-selected');
+      items.forEach(i => {
+        if (i.getAttribute('data-value') === savedTheme) {
+          i.classList.add('active');
+          const icon = i.querySelector('.item-icon') ? i.querySelector('.item-icon').textContent : '';
+          const title = i.querySelector('strong') ? i.querySelector('strong').textContent : '';
+          selectedText.textContent = `${icon} ${title}`.trim();
+        } else {
+          i.classList.remove('active');
+        }
+      });
+  }
 
   themeSelector.addEventListener("change", (e) => {
     const chosenTheme = e.target.value;
@@ -34,6 +52,65 @@ function initThemeSelector() {
     if (themeSelector.value === "system") {
       document.body.setAttribute("data-theme", "system");
     }
+  });
+}
+
+function initCustomDropdowns() {
+  const wrappers = document.querySelectorAll('.custom-dropdown-wrapper');
+  wrappers.forEach(wrapper => {
+    const trigger = wrapper.querySelector('.custom-dropdown-trigger');
+    const selectedText = wrapper.querySelector('.custom-dropdown-selected');
+    const items = wrapper.querySelectorAll('.custom-dropdown-item');
+    const hiddenInput = wrapper.querySelector('input[type="hidden"]');
+    
+    // Set initial active state based on hidden input
+    if (hiddenInput && hiddenInput.value) {
+      items.forEach(i => {
+        if (i.getAttribute('data-value') === hiddenInput.value) {
+          i.classList.add('active');
+          const icon = i.querySelector('.item-icon') ? i.querySelector('.item-icon').textContent : '';
+          const title = i.querySelector('strong') ? i.querySelector('strong').textContent : '';
+          selectedText.textContent = `${icon} ${title}`.trim();
+        } else {
+          i.classList.remove('active');
+        }
+      });
+    }
+
+    trigger.addEventListener('click', (e) => {
+      e.stopPropagation();
+      // Close others
+      document.querySelectorAll('.custom-dropdown-wrapper').forEach(w => {
+        if (w !== wrapper) w.classList.remove('open');
+      });
+      wrapper.classList.toggle('open');
+    });
+    
+    items.forEach(item => {
+      item.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const val = item.getAttribute('data-value');
+        if (hiddenInput) {
+          hiddenInput.value = val;
+          hiddenInput.dispatchEvent(new Event('change'));
+        }
+        
+        items.forEach(i => i.classList.remove('active'));
+        item.classList.add('active');
+        
+        const icon = item.querySelector('.item-icon') ? item.querySelector('.item-icon').textContent : '';
+        const title = item.querySelector('strong') ? item.querySelector('strong').textContent : '';
+        selectedText.textContent = `${icon} ${title}`.trim();
+        
+        wrapper.classList.remove('open');
+      });
+    });
+    
+    document.addEventListener('click', (e) => {
+      if (!wrapper.contains(e.target)) {
+        wrapper.classList.remove('open');
+      }
+    });
   });
 }
 
@@ -106,10 +183,14 @@ function initSingleImageForensics() {
       return;
     }
 
-    // 1. Instant 0ms Preview via FileReader
+    // 1. Instant 0ms Preview via FileReader with Ambient Background (Pic 5 Fix)
     const reader = new FileReader();
     reader.onload = ev => {
       previewImg.src = ev.target.result;
+      const previewBg = document.getElementById("single-preview-bg");
+      if (previewBg) {
+        previewBg.src = ev.target.result;
+      }
       previewWrapper.style.display = "flex";
       previewWrapper.classList.add("scanning");
       resultsContainer.style.display = "none";
@@ -168,26 +249,60 @@ function initSingleImageForensics() {
     fill.style.width = data.confidence_pct + "%";
     pctLabel.textContent = data.confidence_pct + "%";
 
-    // Evidence Cards
+    // Evidence Cards (Pic 1 Fix - Zero emojis in small description line)
+    const stripEmojis = (s) => (s || '').replace(/[\u{1F300}-\u{1FAFF}]|[\u{2600}-\u{27BF}]/gu, '').trim();
+
     document.getElementById("ev-model-val").textContent = data.confidence_pct + "%";
-    document.getElementById("ev-model-desc").textContent = data.model_signal;
+    document.getElementById("ev-model-desc").textContent = stripEmojis(data.model_signal) || (data.is_fake ? "Strong AI Signal Detected" : "Consistent with Authentic Photo");
 
     document.getElementById("ev-srm-val").textContent = data.is_fake ? "Artefacts Detected" : "Clean Noise";
-    document.getElementById("ev-srm-desc").textContent = data.srm_signal;
+    document.getElementById("ev-srm-desc").textContent = stripEmojis(data.srm_signal) || (data.is_fake ? "High-Frequency Noise Residuals" : "Natural Frequencies Preserved");
 
     const warnCount = data.metadata.warnings.length;
-    document.getElementById("ev-meta-val").textContent = warnCount > 0 ? "Suspicious ⚠️" : "Verified / Clean";
+    document.getElementById("ev-meta-val").textContent = warnCount > 0 ? "Suspicious" : "Verified / Clean";
     document.getElementById("ev-meta-desc").textContent = warnCount > 0 ? `${warnCount} Anomalies detected` : "No tampering signatures";
 
     document.getElementById("ev-perf-val").textContent = `${data.latency_ms} ms`;
-    document.getElementById("ev-perf-desc").textContent = "High-speed tensor inference ⚡";
+    document.getElementById("ev-perf-desc").textContent = "High-speed tensor inference";
 
     // Heatmap Overlay
     const heatmapImg = document.getElementById("heatmap-overlay-img");
     heatmapImg.src = data.heatmap_overlay;
 
-    // AI Explanation Text
-    document.getElementById("ai-explanation-text").textContent = data.explanation;
+    // Determine verdict classification (Pic 2 & Pic 3)
+    let verdictType = 'real';
+    const vLower = (data.verdict || '').toLowerCase();
+    if (vLower.includes('inconclusive') || (typeof data.confidence_pct === 'number' && data.confidence_pct >= 48 && data.confidence_pct <= 52)) {
+      verdictType = 'inconclusive';
+    } else if (data.is_fake) {
+      verdictType = 'fake';
+    } else {
+      verdictType = 'real';
+    }
+
+    // 1. Set data-verdict on resultsContainer and evidence grid for dynamic hover highlights (Pic 2)
+    resultsContainer.setAttribute("data-verdict", verdictType);
+    const evGrid = document.getElementById("single-evidence-grid");
+    if (evGrid) {
+      evGrid.setAttribute("data-verdict", verdictType);
+    }
+
+    // 2. Dynamic styling for AI Diagnostic Explanation Box - Left Vertical Bar Only (Pic 1 Fix)
+    const aiExp = document.getElementById("ai-explanation-text");
+    if (aiExp) {
+      aiExp.textContent = data.explanation;
+      aiExp.setAttribute("data-verdict", verdictType);
+      aiExp.classList.remove("verdict-real", "verdict-fake", "verdict-inconclusive");
+      aiExp.classList.add(`verdict-${verdictType}`);
+      aiExp.style.background = "var(--bg-surface)";
+      if (verdictType === 'real') {
+        aiExp.style.borderLeft = "4px solid #10b981";
+      } else if (verdictType === 'fake') {
+        aiExp.style.borderLeft = "4px solid #ef4444";
+      } else {
+        aiExp.style.borderLeft = "4px solid #d97706";
+      }
+    }
 
     // Metadata Table
     const metaTable = document.getElementById("metadata-table-body");
@@ -439,22 +554,46 @@ function initRobustnessLab() {
           const degradedBlob = await (await fetch(degradedDataUrl)).blob();
           const degRes = await analyzeImageLocally(new File([degradedBlob], "degraded.jpg", { type: "image/jpeg" }));
 
-          const drift = Math.abs(Math.round((origRes.confidence_pct - degRes.confidence_pct) * 10) / 10);
-          const verdictStable = origRes.is_fake === degRes.is_fake;
+          const diffSigned = Math.round((degRes.confidence_pct - origRes.confidence_pct) * 10) / 10;
+          const drift = Math.abs(diffSigned);
+          const verdictFlipped = origRes.is_fake !== degRes.is_fake;
+          let vStatus = "stable";
+          let sNote = "";
+          if (verdictFlipped) {
+            vStatus = "flipped";
+            sNote = `Critical Failure: Classification Inverted (${origRes.confidence_pct}% -> ${degRes.confidence_pct}%)`;
+          } else if (drift >= 7.0) {
+            vStatus = "vulnerable";
+            sNote = diffSigned < 0 
+              ? `Vulnerable: Significant Confidence Loss (${diffSigned > 0 ? '+' : ''}${diffSigned}%) under ${degType}`
+              : `Perturbation Shift: Confidence Drifted (${diffSigned > 0 ? '+' : ''}${diffSigned}%) under ${degType}`;
+          } else if (drift >= 3.0) {
+            vStatus = "moderate";
+            sNote = `Moderate Stability: Partial Drift (${diffSigned > 0 ? '+' : ''}${diffSigned}%) under ${degType}`;
+          } else {
+            vStatus = "stable";
+            sNote = origRes.is_fake 
+              ? `Confirmed AI Signature: Invariant Under Degradation (${diffSigned > 0 ? '+' : ''}${diffSigned}%)`
+              : `Authentic Sensor Signature: Resilient Under Stress (${diffSigned > 0 ? '+' : ''}${diffSigned}%)`;
+          }
 
           renderRobustnessResults({
             original: {
               verdict: origRes.is_fake ? "Likely AI-Generated" : "Likely Authentic Real",
-              confidence_pct: origRes.confidence_pct
+              confidence_pct: origRes.confidence_pct,
+              is_fake: origRes.is_fake
             },
             degraded: {
               verdict: degRes.is_fake ? "Likely AI-Generated" : "Likely Authentic Real",
-              confidence_pct: degRes.confidence_pct
+              confidence_pct: degRes.confidence_pct,
+              is_fake: degRes.is_fake
             },
             degraded_image: degradedDataUrl,
             confidence_drift_pct: drift,
-            verdict_stable: verdictStable,
-            stability_note: verdictStable ? "Verdict remained stable under degradation 🛡️" : "Verdict shifted under severe degradation ⚠️"
+            drift_signed: diffSigned,
+            verdict_status: vStatus,
+            verdict_stable: (vStatus === "stable"),
+            stability_note: sNote
           });
         } catch (localErr) {
           alert("Robustness stress test error: " + localErr.message);
@@ -469,10 +608,48 @@ function initRobustnessLab() {
   function renderRobustnessResults(data) {
     robResults.style.display = "block";
     document.getElementById("rob-degraded-img").src = data.degraded_image;
-    document.getElementById("rob-orig-verdict").textContent = `${data.original.verdict} (${data.original.confidence_pct}%)`;
-    document.getElementById("rob-deg-verdict").textContent = `${data.degraded.verdict} (${data.degraded.confidence_pct}%)`;
-    document.getElementById("rob-drift-val").textContent = `± ${data.confidence_drift_pct}%`;
-    document.getElementById("rob-stability-note").innerHTML = `<span class="badge ${data.verdict_stable ? "badge-success" : "badge-danger"}">${data.stability_note}</span>`;
+
+    // 1. Original Prediction coloring (Green for Real, Red for AI)
+    const origIsFake = data.original.is_fake !== undefined 
+      ? data.original.is_fake 
+      : (data.original.verdict || '').toLowerCase().includes('ai');
+    const origBadgeClass = origIsFake ? "badge-danger" : "badge-success";
+    document.getElementById("rob-orig-verdict").innerHTML = `<span class="badge ${origBadgeClass}" style="font-size:0.88rem; font-weight:700;">${data.original.verdict} (${data.original.confidence_pct}%)</span>`;
+
+    // 2. Degraded Prediction coloring (Green for Real, Red for AI)
+    const degIsFake = data.degraded.is_fake !== undefined 
+      ? data.degraded.is_fake 
+      : (data.degraded.verdict || '').toLowerCase().includes('ai');
+    const degBadgeClass = degIsFake ? "badge-danger" : "badge-success";
+    document.getElementById("rob-deg-verdict").innerHTML = `<span class="badge ${degBadgeClass}" style="font-size:0.88rem; font-weight:700;">${data.degraded.verdict} (${data.degraded.confidence_pct}%)</span>`;
+
+    // 3. Confidence Drift calculation & dynamic coloring (Pic 3 Fix)
+    const origConf = parseFloat(data.original.confidence_pct);
+    const degConf = parseFloat(data.degraded.confidence_pct);
+    const diff = data.drift_signed !== undefined ? data.drift_signed : Math.round((degConf - origConf) * 100) / 100;
+    const sign = diff > 0 ? "+" : (diff < 0 ? "" : "±");
+    const absDrift = Math.abs(diff);
+
+    let driftBadgeClass = "badge-success";
+    if (data.verdict_status === "flipped" || data.verdict_status === "vulnerable" || absDrift >= 7.0) {
+      driftBadgeClass = "badge-danger";
+    } else if (data.verdict_status === "moderate" || absDrift >= 3.0) {
+      driftBadgeClass = "badge-warning";
+    } else {
+      driftBadgeClass = "badge-success";
+    }
+    document.getElementById("rob-drift-val").innerHTML = `<span class="badge ${driftBadgeClass}" style="font-size:0.88rem; font-weight:700;">${sign}${diff}%</span>`;
+
+    // 4. Stability Verdict coloring (Pic 3 Fix - Changes dynamically based on drift and verdict)
+    let stabilityBadgeClass = "badge-success";
+    if (data.verdict_status === "flipped" || data.verdict_status === "vulnerable") {
+      stabilityBadgeClass = "badge-danger";
+    } else if (data.verdict_status === "moderate") {
+      stabilityBadgeClass = "badge-warning";
+    } else if (!data.verdict_stable) {
+      stabilityBadgeClass = "badge-danger";
+    }
+    document.getElementById("rob-stability-note").innerHTML = `<span class="badge ${stabilityBadgeClass}" style="font-size:0.88rem; font-weight:700;">${data.stability_note}</span>`;
   }
 }
 
