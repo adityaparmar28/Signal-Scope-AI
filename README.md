@@ -1,23 +1,44 @@
-# 🔍 SignalScope v2.0 PRO • Logic Legion
+<div align="center">
+
+# <img src="static/logo.png" width="45" align="center" alt="SignalScope Logo"> SignalScope v2.0 PRO • Logic Legion
 ### High-Speed AI Media Forensics & Trust Verification Suite
 **Telling Real From Synthetic in the Age of Generative Media**
 
-[![GitHub Pages](https://img.shields.io/badge/Live%20Demo-GitHub%20Pages-2ea44f?style=for-the-badge&logo=github)](https://adityaparmar28.github.io/Logic_Legion/)
+[![GitHub Pages](https://img.shields.io/badge/Live%20Demo-GitHub%20Pages-2ea44f?style=for-the-badge&logo=github)](https://adityaparmar28.github.io/SignalScope-by-LogicLegion/)
+[![Demo Video](https://img.shields.io/badge/Demo%20Video-Watch%20Now-8A2BE2?style=for-the-badge)](#)
 [![Python](https://img.shields.io/badge/Python-3.10+-blue?style=for-the-badge&logo=python)](https://python.org)
 [![PyTorch](https://img.shields.io/badge/PyTorch-Deep%20Learning-EE4C2C?style=for-the-badge&logo=pytorch)](https://pytorch.org)
 [![FastAPI](https://img.shields.io/badge/FastAPI-High--Speed%20API-009688?style=for-the-badge&logo=fastapi)](https://fastapi.tiangolo.com)
-[![Frontend](https://img.shields.io/badge/Frontend-HTML5%20%7C%20CSS3%20%7C%20Vanilla%20JS-F7DF1E?style=for-the-badge&logo=javascript)](https://adityaparmar28.github.io/Logic_Legion/)
-[![SIH 2026](https://img.shields.io/badge/SIH%202026-Problem%20Statement%202-brightgreen?style=for-the-badge)](https://github.com/adityaparmar28/Logic_Legion)
+[![Frontend](https://img.shields.io/badge/Frontend-HTML5%20%7C%20CSS3%20%7C%20Vanilla%20JS-F7DF1E?style=for-the-badge&logo=javascript)](https://adityaparmar28.github.io/SignalScope-by-LogicLegion/)
+[![License](https://img.shields.io/badge/License-MIT-blue.svg?style=for-the-badge)](https://opensource.org/licenses/MIT)
+[![SIH 2026](https://img.shields.io/badge/SIH%202026-Problem%20Statement-brightgreen?style=for-the-badge)](https://res.cloudinary.com/dq3vbtxqk/raw/upload/v1789011277/syntra_problem_statements/x81oedo3sa0ye6enaouu.pdf)
 
 > **SIH 2026 Internal Hackathon** | L.J. Institute of Engineering and Technology [C-433]  
-> **Problem Statement 2:** Telling Real From Synthetic in the Age of Generative Media  
+> **Problem Statement:** Telling Real From Synthetic in the Age of Generative Media  
 > **Domain:** Artificial Intelligence / Media Forensics / Information Trust & Safety
+
+</div>
+
+---
+
+<details open>
+<summary><b>📑 Quick Navigation Menu (Expand/Collapse)</b></summary>
+<br>
+
+| 📌 **Project Overview** | 🔬 **Technical Deep Dive** | ⚙️ **Setup & Legal** |
+| :--- | :--- | :--- |
+| 🌐 [Live Web Demo](#-instant-live-web-demo-zero-setup-required) | 🏗️ [Architecture & Methodology](#️-architecture--forensic-methodology) | 🛠️ [Local Quick-Start Guide](#️-local-development--quick-start-guide) |
+| 🌟 [Executive Summary](#-executive-summary--problem-overview) | 📋 [Comprehensive Modules Built](#-comprehensive-modules-built) | 📂 [Repository File Structure](#-repository-file-structure) |
+| 👥 [Team Logic Legion](#-meet-team-logic-legion) | 📈 [Evaluation & Metrics](#-benchmark-evaluation--performance-metrics) | 🔒 [Ethical AI & Disclosure](#-ethical-ai--responsible-disclosure) |
+| ⚡ [Why SignalScope?](#-what-makes-signalscope-v20-superior) | 📊 [Datasets Utilized](#-datasets-utilized) | 📜 [License & Copyright](#-license--copyright) |
+
+</details>
 
 ---
 
 ## 🌐 Instant Live Web Demo (Zero Setup Required)
 👉 **Experience SignalScope v2.0 directly in your browser:**  
-🔗 **[https://adityaparmar28.github.io/Logic_Legion/](https://adityaparmar28.github.io/Logic_Legion/)**
+🔗 **[https://adityaparmar28.github.io/SignalScope-by-LogicLegion/](https://adityaparmar28.github.io/SignalScope-by-LogicLegion/)**
 
 * **No cloning, terminal, or Python installation needed.**
 * Operates seamlessly across mobile, tablet, and desktop devices.
@@ -26,9 +47,16 @@
 ---
 
 ## 🌟 Executive Summary & Problem Overview
-With state-of-the-art diffusion models (Midjourney v5/v6, Stable Diffusion, DALL-E 3, FLUX) producing photorealistic imagery in seconds, visual misinformation poses severe risks to journalism, legal proceedings, and public trust.
 
-**SignalScope v2.0** is an enterprise-grade forensic suite developed by **Logic Legion**. Rather than functioning as a fragile black-box classifier, SignalScope leverages a **Dual-Branch Spatial & Frequency Fusion Architecture** that evaluates both high-level semantic anomalies and low-level sensor noise residuals. Furthermore, every verdict is backed by **Faithful Explainability (Grad-CAM heatmaps)**, **Robustness Stress-Testing**, and **EXIF/C2PA Provenance Inspection**.
+> *With state-of-the-art diffusion models producing photorealistic imagery in seconds, visual misinformation poses severe risks to journalism, legal proceedings, and public trust.*
+
+**SignalScope v2.0 PRO** is an enterprise-grade forensic suite developed by **Logic Legion** to combat synthetic media generation. 
+
+Unlike traditional black-box classifiers, our system provides a highly transparent, multi-layered approach:
+* 🔬 **Dual-Branch Architecture:** Evaluates both high-level semantic anomalies and low-level sensor noise residuals.
+* 🧠 **Faithful Explainability:** Generates Grad-CAM heatmaps to visually explain every AI decision.
+* 🛡️ **Robustness Stress-Testing:** Ensures the model cannot be fooled by compression or noise degradation.
+* 📑 **Provenance Inspection:** Deep EXIF and C2PA metadata scanning.
 
 ---
 
@@ -36,12 +64,12 @@ With state-of-the-art diffusion models (Midjourney v5/v6, Stable Diffusion, DALL
 
 | Member | GitHub Handle | Role & Primary Contributions |
 | :--- | :--- | :--- |
-| **Aditya Parmar** | [@adityaparmar28](https://github.com/adityaparmar28) | **Frontend & MLOps Lead** • Architected v2.0 SPA UI, 3-mode theme switcher, FastAPI backend integration, and GitHub Pages WebEngine |
-| **Tapan** | [@tapansoni2007-dotcom](https://github.com/tapansoni2007-dotcom) | **Core ML Lead** • Designed dual-branch EfficientNet-B0 + SRM steganalysis architecture, training pipeline, and temperature calibration |
-| **Krina Malviya** | [@KrinaMalaviya](https://github.com/KrinaMalaviya) | **Data Engineering Lead** • Data scraping, preprocessing pipelines, SRM high-pass kernel implementation, and augmentation flows |
-| **Yuvraj** | [@YUXRAJ21](https://github.com/YUXRAJ21) | **Explainability (XAI) Lead** • PyTorch Grad-CAM integration, Jet thermal attention colormaps, and natural-language forensic reporting |
-| **Athul Nair** | [@athul2917-tech](https://github.com/athul2917-tech) | **Testing & Validation Lead** • Robustness benchmarks against JPEG compression, Gaussian blur, noise, and screenshot degradation |
-| **Pari Doshi** | [@paridoshi25](https://github.com/paridoshi25) | **Documentation & Analytics Lead** • ROC-AUC/F1 evaluation curves, confusion matrix generation, and official hackathon reports |
+| **Aditya Parmar** | [`@adityaparmar28`](https://github.com/adityaparmar28) | **Frontend & MLOps Lead** • Architected v2.0 SPA UI, 3-mode theme switcher, FastAPI backend integration, and GitHub Pages WebEngine |
+| **Tapan** | [`@tapansoni2007-dotcom`](https://github.com/tapansoni2007-dotcom) | **Core ML Lead** • Designed dual-branch EfficientNet-B0 + SRM steganalysis architecture, training pipeline, and temperature calibration |
+| **Krina Malviya** | [`@KrinaMalaviya`](https://github.com/KrinaMalaviya) | **Data Engineering Lead** • Data scraping, preprocessing pipelines, SRM high-pass kernel implementation, and augmentation flows |
+| **Yuvraj** | [`@YUXRAJ21`](https://github.com/YUXRAJ21) | **Explainability (XAI) Lead** • PyTorch Grad-CAM integration, Jet thermal attention colormaps, and natural-language forensic reporting |
+| **Athul Nair** | [`@athul2917-tech`](https://github.com/athul2917-tech) | **Testing & Validation Lead** • Robustness benchmarks against JPEG compression, Gaussian blur, noise, and screenshot degradation |
+| **Pari Doshi** | [`@paridoshi25`](https://github.com/paridoshi25) | **Documentation & Analytics Lead** • ROC-AUC/F1 evaluation curves, confusion matrix generation, and official hackathon reports |
 
 ---
 
@@ -60,7 +88,7 @@ With state-of-the-art diffusion models (Midjourney v5/v6, Stable Diffusion, DALL
 
 ## 🏗️ Architecture & Forensic Methodology
 
-```
+```text
                                   [ Input Image ]
                                          │
                    ┌─────────────────────┴─────────────────────┐
@@ -135,25 +163,27 @@ Uncalibrated deep neural networks routinely produce extreme overconfidence (e.g.
 
 ---
 
-## 🚀 Local Quick-Start Guide
+## 🛠️ Local Development & Quick-Start Guide
 
-### Prerequisites
-* Windows 10/11, macOS, or Linux
-* Python 3.10 or higher
-* Modern web browser (Chrome, Edge, Firefox, Safari)
+If you wish to bypass the GitHub Pages WebEngine and utilize the full power of the PyTorch AI Backend locally for your own research or deployment:
 
-### Option A: 1-Click Launch (Windows)
-Simply double-click the included batch launcher:
+### 1. Prerequisites
+* **OS:** Windows 10/11, macOS, or Linux
+* **Python:** 3.10 or higher
+* **Hardware:** A machine with a CUDA-enabled GPU is highly recommended for faster tensor execution, but standard CPU hardware works perfectly (~370 ms latency).
+
+### 2. Option A: 1-Click Launch (Windows Only)
+Simply clone the repository and double-click the included batch launcher:
 ```powershell
 .\run_v2_app.bat
 ```
 *This automatically starts the FastAPI uvicorn daemon and opens `http://localhost:8000` in your default browser.*
 
-### Option B: Manual Setup
+### 3. Option B: Manual Setup (All OS)
 ```bash
 # 1. Clone the repository
-git clone https://github.com/adityaparmar28/Logic_Legion.git
-cd Logic_Legion
+git clone https://github.com/adityaparmar28/SignalScope-by-LogicLegion.git
+cd SignalScope-by-LogicLegion
 
 # 2. Create and activate a virtual environment
 python -m venv venv
@@ -164,17 +194,18 @@ source venv/bin/activate
 
 # 3. Install dependencies
 pip install -r requirements.txt
+# Alternatively, install manually: pip install fastapi uvicorn torch torchvision pillow numpy python-multipart
 
 # 4. Launch the high-speed FastAPI web server
 python -m uvicorn web_server:app --host 127.0.0.1 --port 8000
 ```
-Open your browser and navigate to **`http://localhost:8000`**.
+*The API and Frontend will now be securely served. Open your browser and navigate to **`http://127.0.0.1:8000`**.*
 
 ---
 
 ## 📂 Repository File Structure
 
-```
+```text
 Logic_Legion/
 ├── index.html                   # Root SPA Web App (for GitHub Pages deployment)
 ├── web_server.py                # High-speed asynchronous FastAPI inference backend
@@ -212,8 +243,19 @@ Logic_Legion/
 
 ---
 
-## 📜 License
-This project is open-source and licensed under the **MIT License**.
+## 📜 License & Copyright
+
+<p align="left">
+  <a href="https://opensource.org/licenses/MIT">
+    <img src="https://img.shields.io/badge/License-MIT-blue.svg?style=flat-square" alt="MIT License">
+  </a>
+</p>
+
+This software is released under the **[MIT License](https://opensource.org/licenses/MIT)**. You are free to use, modify, and distribute it for both commercial and non-commercial purposes, provided that proper attribution is given to **Logic Legion**.
 
 ---
-*Developed with pride for **Smart India Hackathon (SIH) 2026** by **Team Logic Legion**.*
+<div align="center">
+  <h3>✨ Developed with pride by Team Logic Legion ✨</h3>
+  <p><b>Smart India Hackathon (SIH) 2026</b></p>
+  <i>Empowering Truth in Digital Media.</i>
+</div>
