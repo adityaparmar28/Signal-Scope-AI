@@ -1059,8 +1059,8 @@ body[data-theme="dark"] .custom-dropdown-trigger {
 
 .brand-logo-container img.brand-icon,
 img.brand-icon {
-  width: 95px !important;
-  height: 95px !important;
+  width: 75px !important;
+  height: 75px !important;
   border-radius: 18px;
   display: block;
   transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), filter 0.3s ease;
