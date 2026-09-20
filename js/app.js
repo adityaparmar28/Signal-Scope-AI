@@ -1,3 +1,6 @@
+
+const API_BASE = window.location.hostname.includes('github.io') ? 'http://localhost:8000' : '';
+
 /* ==========================================================================
    SignalScope v2 - Ultra-Fast Forensic JavaScript Engine
    Zero-lag DOM updates, Async REST API, Drag-and-Drop & Live Visualizers
@@ -214,7 +217,7 @@ function initSingleImageForensics() {
     const controller = new AbortController();
     const timeoutId = setTimeout(() => controller.abort(), 3500);
 
-    fetch("/api/analyze", {
+    fetch(API_BASE + "/api/analyze", {
       method: "POST",
       body: formData,
       signal: controller.signal
@@ -404,7 +407,7 @@ function initBatchScanner() {
       const controller = new AbortController();
       const timeoutId = setTimeout(() => controller.abort(), 6000);
 
-      const res = await fetch("/api/batch", {
+      const res = await fetch(API_BASE + "/api/batch", {
         method: "POST",
         body: formData,
         signal: controller.signal
@@ -572,7 +575,7 @@ function initRobustnessLab() {
         const controller = new AbortController();
         const timeoutId = setTimeout(() => controller.abort(), 6000);
 
-        const res = await fetch("/api/robustness", {
+        const res = await fetch(API_BASE + "/api/robustness", {
           method: "POST",
           body: formData,
           signal: controller.signal
@@ -725,7 +728,7 @@ function initRobustnessLab() {
    5. System Status & Specs
    -------------------------------------------------------------------------- */
 function initSystemStatus() {
-  fetch("/api/status")
+  fetch(API_BASE + "/api/status")
     .then(res => {
       if (!res.ok) throw new Error("Offline");
       return res.json();
