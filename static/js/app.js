@@ -121,16 +121,26 @@ function initTabs() {
   const tabBtns = document.querySelectorAll(".tab-btn");
   const tabContents = document.querySelectorAll(".tab-content");
 
-  tabBtns.forEach(btn => {
-    btn.addEventListener("click", () => {
-      const targetId = btn.getAttribute("data-tab");
-
+  const hash = window.location.hash.replace('#', '');
+  if (hash) {
       tabBtns.forEach(b => b.classList.remove("active"));
       tabContents.forEach(c => c.classList.remove("active"));
-
-      btn.classList.add("active");
-      const targetContent = document.getElementById(targetId);
+      
+      const targetBtn = document.querySelector(`.tab-btn[data-tab="${hash}"]`);
+      const targetContent = document.getElementById(hash);
+      
+      if (targetBtn) targetBtn.classList.add("active");
       if (targetContent) targetContent.classList.add("active");
+  }
+
+  tabBtns.forEach(btn => {
+    btn.addEventListener("click", (e) => {
+      e.preventDefault();
+      const targetId = btn.getAttribute("data-tab");
+      if (!btn.classList.contains("active")) {
+          window.location.hash = targetId;
+          window.location.reload();
+      }
     });
   });
 }
