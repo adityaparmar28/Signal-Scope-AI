@@ -3782,7 +3782,8 @@ body[data-theme="light"].theme-obsidian .cert-cancel-btn:hover {
         const formData = new FormData();
         formData.append("file", file);
 
-        fetch("/api/analyze", {
+        const apiBaseUrl = window.location.hostname.includes('github.io') ? 'http://127.0.0.1:8000' : '';
+        fetch(apiBaseUrl + "/api/analyze", {
           method: "POST",
           body: formData
         })
@@ -3916,6 +3917,9 @@ body[data-theme="light"].theme-obsidian .cert-cancel-btn:hover {
           if (resultsContainer) resultsContainer.scrollIntoView({ behavior: "smooth" });
         })
         .catch(err => {
+          if (window.location.hostname.includes("github.io")) {
+            alert("Security Block: Please enable 'Insecure Content' in your browser settings (Site Settings) to allow Github to communicate with your Local Engine, or simply use http://127.0.0.1:8000 directly.");
+          }
           if (previewWrapper) previewWrapper.classList.remove("scanning");
           console.error("Direct analysis error:", err);
           alert("Analysis error: " + err.message);
