@@ -3728,7 +3728,7 @@ body[data-theme="light"].theme-obsidian .cert-cancel-btn:hover {
 
       // Restore saved style on load if available
       try {
-        const savedStyle = localStorage.getItem('signalscope_preview_style') || 'grid';
+        const savedStyle = localStorage.getItem('signalscope_preview_style') || 'obsidian';
         if (STYLES.includes(savedStyle)) {
           window.switchThemeStyle(savedStyle);
         }
