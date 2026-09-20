@@ -241,6 +241,7 @@ header {
 }
 
 .status-dot {
+  margin-right: 0.5rem;
   width: 9px;
   height: 9px;
   border-radius: 50%;
