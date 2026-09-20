@@ -355,7 +355,7 @@ main {
 
 /* Upload Zone */
 .upload-dropzone {
-  border: 2px dashed var(--border-light);
+  border: 2px solid var(--border-light);
   border-radius: 12px;
   background: var(--bg-base);
   padding: 2.75rem 1.5rem;
@@ -1165,7 +1165,7 @@ body[data-theme="dark"] .card {
 }
 
 body[data-theme="dark"] .upload-dropzone {
-  border: 2px dashed #30363d;
+  border: 2px solid #30363d;
   background: #070a0f;
 }
 
@@ -1183,7 +1183,7 @@ body[data-theme="dark"] .upload-dropzone.dragover .upload-title {
 
 @media (prefers-color-scheme: dark) {
   body[data-theme="system"] .upload-dropzone {
-    border: 2px dashed #30363d;
+    border: 2px solid #30363d;
     background: #070a0f;
   }
 
