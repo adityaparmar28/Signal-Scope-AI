@@ -1080,7 +1080,7 @@ img.brand-icon {
 
 .brand-badge {
   font-size: 0.58rem !important;
-  background: var(--primary) !important;
+  background: #1d4ed8 !important;
   color: #ffffff !important;
   padding: 3px 7px !important;
   border-radius: 6px !important;
