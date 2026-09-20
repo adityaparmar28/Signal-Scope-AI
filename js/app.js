@@ -1,5 +1,5 @@
 
-const API_BASE = window.location.hostname.includes('github.io') ? 'http://localhost:8000' : '';
+const API_BASE = window.location.hostname.includes('github.io') ? 'http://127.0.0.1:8000' : '';
 
 /* ==========================================================================
    SignalScope v2 - Ultra-Fast Forensic JavaScript Engine
@@ -741,6 +741,9 @@ function initSystemStatus() {
       populateStatusMetrics(data);
     })
     .catch(() => {
+      if (window.location.hostname.includes("github.io")) {
+        alert("Note: To use the AI Backend from GitHub Pages, you must enable 'Insecure Content' in your browser settings (Mixed Content), or just use http://127.0.0.1:8000 directly in your browser. Falling back to mocked Offline Mode.");
+      }
       const statusBadge = document.getElementById("header-status-badge");
       if (statusBadge) {
         statusBadge.innerHTML = `<span class="status-dot"></span> WebEngine Online (GitHub Cloud ⚡)`;
@@ -749,7 +752,7 @@ function initSystemStatus() {
         device: "Client WebEngine (WASM / Canvas GPU)",
         optimal_threshold: 0.50,
         metrics: {
-          accuracy_pct: 96.32,
+          accuracy_pct: 91.02,
           roc_auc: 0.9711,
           macro_f1: 0.9095
         }
